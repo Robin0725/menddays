@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MendDays — Personalized 30-Day Breakup Recovery Plan &amp; No Contact Tracker</title>
+<meta name="description" content="Get over a breakup with a personalized 30-day recovery plan and a no-contact tracker. Answer 6 questions, get a day-by-day plan built for your situation. 100% private — everything stays on your device. No account, no subscription, one-time purchase.">
+<link rel="canonical" href="https://robin0725.github.io/menddays/">
+<meta property="og:title" content="MendDays — Personalized 30-Day Breakup Recovery Plan">
+<meta property="og:description" content="A breakup recovery plan that's actually yours: 30 days, built from your answers, plus a no-contact tracker. Private, on your device. No subscription, no account.">
+<meta property="og:url" content="https://robin0725.github.io/menddays/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MendDays">
+<style>
+  :root {
+    --bg: #12132b;
+    --bg2: #1a1438;
+    --panel: #1c1e40;
+    --panel2: #262952;
+    --border: #34376b;
+    --text: #f2efe9;
+    --muted: #a4a8cc;
+    --accent: #ff9d6b;
+    --accent-deep: #f97f4b;
+    --accent-soft: rgba(255,157,107,.12);
+    --accent-line: rgba(255,157,107,.45);
+    --good: #6ee7b7;
+    --danger: #fda4af;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: linear-gradient(160deg, var(--bg2) 0%, var(--bg) 38%, #0e1124 100%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  header {
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-weight: 800; font-size: 19px; }
+  .logo span { color: var(--accent); }
+  .pro-pill {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    color: var(--accent);
+    padding: 7px 14px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .pro-pill:hover { background: rgba(255,157,107,.2); }
+  .hero { text-align: center; padding: 42px 20px 8px; }
+  .hero h1 { font-size: clamp(27px, 5vw, 44px); letter-spacing: -.8px; line-height: 1.15; }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(92deg, #ffb27a, #ff8a5c 55%, #ff7a8a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero > p { color: var(--muted); max-width: 640px; margin: 14px auto 0; font-size: 16px; line-height: 1.7; }
+  .hero > p b { color: var(--text); }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 18px;
+    margin: 26px 0;
+  }
+  .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; }
+
+  /* ---------- quiz ---------- */
+  .q { margin-bottom: 20px; }
+  .q-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .q-title .qnum { color: var(--accent); margin-right: 6px; }
+  .q.missing .q-title { color: var(--danger); }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { position: relative; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt label {
+    display: block;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 99px;
+    padding: 9px 15px;
+    font-size: 14px;
+    line-height: 1.35;
+    cursor: pointer;
+    user-select: none;
+  }
+  .opt label:hover { border-color: var(--accent-line); }
+  .opt input:checked + label {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .opt input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .name-field input {
+    width: 100%;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 15px;
+    font-family: inherit;
+  }
+  .name-field input:focus { outline: none; border-color: var(--accent); }
+  .btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(92deg, var(--accent), var(--accent-deep));
+    color: #2b1206;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn:hover { opacity: .9; }
+  .btn.ghost { background: transparent; border: 1px solid var(--accent-line); color: var(--accent); font-weight: 700; }
+  .quiz-msg { display: none; color: var(--danger); font-size: 13px; margin-top: 10px; text-align: center; }
+  .quiz-msg.show { display: block; }
+  .quiz-note { color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 12px; text-align: center; }
+
+  /* ---------- plan ---------- */
+  .plan-intro { text-align: center; padding: 4px 0 2px; }
+  .plan-intro h2 { font-size: 24px; letter-spacing: -.4px; color: var(--text); text-transform: none; margin-bottom: 8px; }
+  .plan-intro p { color: var(--muted); font-size: 14px; line-height: 1.65; max-width: 560px; margin: 0 auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin: 14px 0 4px; }
+  .chip {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 99px;
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+  .plan-actions { display: flex; gap: 10px; margin: 16px 0 6px; flex-wrap: wrap; }
+  .plan-actions .btn { flex: 1 1 150px; width: auto; padding: 12px; font-size: 14px; }
+  .week-head {
+    margin: 30px 0 4px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 12px 12px 0;
+  }
+  .week-head h3 { font-size: 17px; letter-spacing: -.2px; }
+  .week-head h3 span { color: var(--accent); }
+  .week-head p { color: var(--muted); font-size: 13px; line-height: 1.55; margin-top: 4px; }
+  .day-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .day-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .day-num {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 99px;
+    padding: 3px 11px;
+    letter-spacing: .5px;
+    white-space: nowrap;
+  }
+  .day-title { font-size: 16px; font-weight: 700; letter-spacing: -.2px; }
+  .day-row { display: flex; gap: 9px; margin-top: 9px; font-size: 14px; line-height: 1.6; }
+  .day-row .tag {
+    flex: 0 0 auto;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--accent);
+    padding-top: 4px;
+    min-width: 44px;
+  }
+  .day-row .txt { color: var(--text); }
+  .day-row.small-row .txt { color: var(--muted); }
+  .day-quote {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--accent-line);
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+    line-height: 1.6;
+    background: rgba(255,255,255,.025);
+    border-radius: 0 8px 8px 0;
+  }
+  .day-card.locked { cursor: pointer; }
+  .day-card.locked .day-body {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+    opacity: .75;
+  }
+  .lock-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: linear-gradient(180deg, rgba(18,19,43,.1), rgba(18,19,43,.55));
+  }
+  .lock-overlay .lock-ic { font-size: 22px; }
+  .lock-overlay .lock-txt {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    background: rgba(18,19,43,.85);
+    border: 1px solid var(--accent-line);
+    border-radius: 99px;
+    padding: 5px 13px;
+  }
+  .upsell {
+    margin-top: 18px;
+    text-align: center;
+    background: var(--accent-soft);
+    border: 1px dashed var(--accent-line);
+    border-radius: 14px;
+    padding: 18px 16px;
+  }
+  .upsell p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+  .upsell p b { color: var(--text); }
+  .upsell .btn { max-width: 320px; margin: 0 auto; }
+
+  /* ---------- tracker ---------- */
+  .tracker { text-align: center; }
+  .streak-num {
+    font-size: clamp(72px, 22vw, 110px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -3px;
+    background: linear-gradient(180deg, #ffc29a, var(--accent-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-top: 6px;
+  }
+  .streak-label { color: var(--muted); font-size: 14px; margin: 6px 0 4px; }
+  .streak-best { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+  .streak-best b { color: var(--accent); }
+  .tracker-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tracker-btns .btn { flex: 1 1 170px; width: auto; }
+  .btn.done { background: var(--panel2); color: var(--good); border: 1px solid rgba(110,231,183,.4); cursor: default; }
+  .btn.done:hover { opacity: 1; }
+  .btn.slip { background: transparent; border: 1px solid var(--border); color: var(--muted); font-weight: 600; }
+  .btn.slip:hover { border-color: var(--danger); color: var(--danger); opacity: 1; }
+  .slip-note {
+    display: none;
+    margin: 12px auto 2px;
+    max-width: 420px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    border-radius: 12px;
+    padding: 12px 16px;
+  }
+  .slip-note.show { display: block; }
+  .badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 18px; }
+  .badge {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 4px 10px;
+    opacity: .45;
+  }
+  .badge .b-ic { font-size: 20px; filter: grayscale(1); }
+  .badge .b-n { font-weight: 800; font-size: 15px; margin-top: 3px; }
+  .badge .b-t { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+  .badge.earned { opacity: 1; border-color: var(--accent-line); background: var(--accent-soft); }
+  .badge.earned .b-ic { filter: none; }
+  .badge.earned .b-n { color: var(--accent); }
+  .tracker-hint { color: var(--muted); font-size: 12.5px; line-height: 1.6; margin-top: 14px; }
+
+  /* ---------- content ---------- */
+  .content { max-width: 720px; margin: 0 auto; padding: 10px 16px 60px; }
+  .content h2 { font-size: 22px; margin: 38px 0 12px; letter-spacing: -.3px; }
+  .content p { color: var(--muted); font-size: 15px; line-height: 1.78; margin-bottom: 10px; }
+  .content details {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  .content summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+  .content details p { font-size: 14px; line-height: 1.75; margin-top: 10px; margin-bottom: 0; }
+  .content details b { color: var(--text); }
+  .callout {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-top: 16px;
+  }
+  .callout p { color: var(--text); margin: 0; }
+
+  /* ---------- modal / toast / footer ---------- */
+  .modal-bg { position: fixed; inset: 0; background: rgba(8,9,22,.72); display: none; align-items: center; justify-content: center; z-index: 50; }
+  .modal-bg.open { display: flex; }
+  .modal { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px; max-width: 460px; margin: 16px; max-height: 86vh; overflow-y: auto; }
+  .modal h3 { margin-bottom: 12px; font-size: 18px; }
+  .modal .price { color: var(--accent); font-weight: 800; }
+  .modal p, .modal li { color: var(--muted); font-size: 14px; line-height: 1.75; }
+  .modal ul { padding-left: 20px; margin: 10px 0 14px; }
+  .modal li b { color: var(--text); }
+  .modal .m-btn { background: var(--accent); color: #2b1206; border: none; padding: 10px 24px; border-radius: 9px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%) translateY(20px);
+    background: #2f7d5c;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 60;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.warm { background: #b3593a; }
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 2;
+    text-align: center;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .safety {
+    max-width: 640px;
+    margin: 0 auto 14px;
+    font-size: 12.5px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px;
+    line-height: 1.7;
+  }
+  .hidden { display: none !important; }
+
+  @media (max-width: 420px) {
+    .plan-actions .btn, .tracker-btns .btn { flex-basis: 100%; }
+    .day-row .tag { min-width: 40px; }
+    header { padding: 12px 14px; }
+    .pro-pill { font-size: 12px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Mend<span>Days</span></div>
+  <button class="pro-pill" onclick="openPro()">&#10024; Pro &mdash; $9 lifetime, coming soon</button>
+</header>
+
+<div class="hero">
+  <h1>A breakup recovery plan that&rsquo;s <em>actually yours</em>.</h1>
+  <p>Answer 6 questions, get a personalized <b>30-day, day-by-day plan</b> plus a <b>no-contact tracker</b>. Everything runs on your device &mdash; nothing uploaded, no account, no subscription. One-time purchase if you ever want more.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ QUIZ ============ -->
+  <div class="card" id="quiz-card">
+    <h2>Your situation &mdash; 6 quick questions</h2>
+    <div id="quiz-questions"></div>
+    <div class="q name-field">
+      <div class="q-title"><span class="qnum">6.</span>What should the plan call you? <span style="color:var(--muted);font-weight:400">(optional)</span></div>
+      <input type="text" id="q-name" maxlength="20" placeholder="A name or nickname" autocomplete="off">
+    </div>
+    <button class="btn" onclick="generatePlan()">Build my 30-day plan</button>
+    <div class="quiz-msg" id="quiz-msg">Please answer the highlighted questions first.</div>
+    <p class="quiz-note">Your answers never leave this device. No account, no email, nothing sent anywhere.</p>
+  </div>
+
+  <!-- ============ PLAN ============ -->
+  <div id="plan-section" class="hidden">
+    <div class="plan-intro">
+      <h2 id="plan-title">Your 30-day plan</h2>
+      <p id="plan-sub"></p>
+      <div class="chips" id="plan-chips"></div>
+    </div>
+    <div class="plan-actions">
+      <button class="btn ghost" onclick="openPro('print')">&#128424; Print plan</button>
+      <button class="btn ghost" onclick="openPro('export')">&#8595; Export PDF</button>
+      <button class="btn ghost" onclick="retakeQuiz()">&#8634; Retake quiz</button>
+    </div>
+    <div id="plan-days"></div>
+    <div class="upsell">
+      <p><b>Days 1&ndash;7 are free, forever.</b> MendDays Pro unlocks all 30 days plus print &amp; PDF export &mdash; <b>$9, one-time, yours for life.</b> No subscription, ever.</p>
+      <button class="btn" onclick="openPro('upsell')">&#10024; Unlock all 30 days &mdash; $9 lifetime</button>
+    </div>
+  </div>
+
+  <!-- ============ TRACKER ============ -->
+  <div class="card tracker" id="tracker-card">
+    <h2>No-Contact Tracker</h2>
+    <div class="streak-num" id="streak-num">0</div>
+    <div class="streak-label">days without contact</div>
+    <div class="streak-best" id="streak-best"></div>
+    <div class="tracker-btns">
+      <button class="btn" id="checkin-btn" onclick="checkIn()">I didn&rsquo;t contact them today &#10003;</button>
+      <button class="btn slip" onclick="slip()">I slipped&hellip;</button>
+    </div>
+    <div class="slip-note" id="slip-note"><b>Day 0 is still a day. Restart, don&rsquo;t quit.</b><br>One message doesn&rsquo;t erase the days you held the line &mdash; your badges are yours forever. The streak starts again tomorrow, and this time you know exactly how it feels to slip. That knowledge counts.</div>
+    <div class="badges" id="badges"></div>
+    <p class="tracker-hint">Check in once a day. Your streak is saved on this device &mdash; close the tab, come back tomorrow, it&rsquo;ll be here.</p>
+  </div>
+
+</div>
+
+<!-- ============ CONTENT / SEO ============ -->
+<div class="content">
+  <h2>Why a 30-day breakup recovery plan works</h2>
+  <p>After a breakup, the hardest question is the smallest one: <i>what do I do today?</i> Your brain is busy replaying conversations and drafting texts you shouldn&rsquo;t send &mdash; it has no spare capacity for planning recovery. MendDays answers that question for you, every day for 30 days, in four phases: <b style="color:var(--text)">Survive</b> (emotional first aid, no contact, sleep), <b style="color:var(--text)">Feel</b> (letting grief move through instead of around), <b style="color:var(--text)">Rebuild</b> (getting your people, hobbies and body back), and <b style="color:var(--text)">Forward</b> (new goals, boundaries, and a graduation ritual).</p>
+  <p>And because no two breakups are the same, the plan is built from your answers: who ended it, how long it&rsquo;s been, what hurts most, and what you want in 30 days. Someone who can&rsquo;t stop checking their ex&rsquo;s Instagram gets a very different week one than someone who can&rsquo;t sleep.</p>
+  <div class="callout">
+    <p><b>MendDays never sees any of it.</b> Your answers, your plan, your streak &mdash; all of it lives in your browser on your device. There is no server, no account, no database. We couldn&rsquo;t read your breakup details if we wanted to.</p>
+  </div>
+
+  <h2>FAQ</h2>
+  <details>
+    <summary>Is this really free?</summary>
+    <p>The questionnaire, the first 7 days of your plan, and the no-contact tracker are free, forever. <b>MendDays Pro</b> &mdash; all 30 days plus print &amp; PDF export &mdash; will be a <b>$9 one-time purchase</b>. Not a subscription. You buy it once, it&rsquo;s yours for life.</p>
+  </details>
+  <details>
+    <summary>Where is my data stored?</summary>
+    <p>On your device, in your browser&rsquo;s local storage. Nothing is uploaded &mdash; there is no server to upload to. If you clear your browser data, your plan and streak are gone too, so be a little careful with &ldquo;clear browsing data&rdquo;.</p>
+  </details>
+  <details>
+    <summary>What is no contact, and why does everyone recommend it?</summary>
+    <p>No contact means no texts, no calls, no &ldquo;accidental&rdquo; likes, no checking their stories &mdash; usually for at least 30 days. Every contact resets the emotional clock: your brain treats it like a tiny reunion, then goes through a tiny breakup again. The tracker on this page exists because streaks work &mdash; seeing &ldquo;Day 12&rdquo; makes it much harder to throw it away on a 2am text.</p>
+  </details>
+  <details>
+    <summary>I slipped and texted them. Did I ruin everything?</summary>
+    <p>No. A slip is a data point, not a verdict. Hit &ldquo;I slipped&rdquo;, let the counter restart, and notice what triggered it &mdash; that&rsquo;s genuinely useful information. Day 0 is still a day. The badges you already earned stay earned.</p>
+  </details>
+  <details>
+    <summary>Is this therapy?</summary>
+    <p>No. MendDays is a structured self-help tool &mdash; a plan, not a professional. If your low moods last for weeks, or you&rsquo;re having thoughts of harming yourself, please talk to a professional or reach out to a crisis line at <a href="https://findahelpline.com" style="color:var(--accent)">findahelpline.com</a>. There&rsquo;s no version of this where asking for help is the wrong move.</p>
+  </details>
+  <details>
+    <summary>Can I retake the questionnaire?</summary>
+    <p>Yes &mdash; hit &ldquo;Retake quiz&rdquo; above your plan. Your answers are pre-filled so you can change just one thing (say, your biggest struggle shifted from sleep to anger) and rebuild the plan. The no-contact streak is separate and survives retakes.</p>
+  </details>
+
+  <h2>Start today, not Monday</h2>
+  <p>Scroll up, answer six questions, and let today be Day 1. Nothing to sign up for, nothing to cancel later &mdash; that&rsquo;s the whole point.</p>
+</div>
+
+<footer>
+  <div class="safety">This is a self-help tool, not therapy. If you&rsquo;re in crisis or thinking about harming yourself, please reach out &mdash; <a href="https://findahelpline.com">findahelpline.com</a> lists free, confidential helplines worldwide.</div>
+  <div>Part of a family of one-time-purchase tools:
+    <a href="https://fillsign.app">FillSign</a> &middot;
+    <a href="https://robin0725.github.io/shotgloss/">ShotGloss</a> &middot;
+    <a href="https://robin0725.github.io/foreverqr/">ForeverQR</a> &middot;
+    <a href="https://robin0725.github.io/subkit/">SubKit</a> &middot;
+    <a href="https://robin0725.github.io/clipgif/">ClipGIF</a> &middot;
+    <a href="https://robin0725.github.io/mailsig/">MailSig</a> &middot;
+    <a href="https://robin0725.github.io/rentslip/">RentSlip</a>
+  </div>
+  <div>
+    <a href="#" onclick="openModal('privacy-modal');return false;">Privacy</a> &middot;
+    <a href="#" onclick="openModal('terms-modal');return false;">Terms</a> &middot;
+    Contact: <a href="mailto:florianfouine470@gmail.com">florianfouine470@gmail.com</a>
+  </div>
+  <div>&copy; 2026 MendDays &mdash; built in your browser, nothing uploaded.</div>
+</footer>
+
+<div class="modal-bg" id="pro-modal" onclick="if(event.target===this)closeModal('pro-modal')">
+  <div class="modal">
+    <h3>&#10024; MendDays Pro &mdash; <span class="price">$9, one-time, yours forever</span></h3>
+    <ul>
+      <li><b>All 30 days unlocked</b> &mdash; the full Feel, Rebuild and Forward weeks</li>
+      <li><b>Print &amp; PDF export</b> &mdash; put the plan on your wall, off your phone</li>
+      <li><b>Multiple plans</b> &mdash; retake and keep old plans as you heal</li>
+    </ul>
+    <p>No subscription, ever. Pro is <b style="color:var(--text)">coming soon</b> &mdash; everything currently on this page stays free while we build it.</p>
+    <div style="text-align:right; margin-top:14px"><button class="m-btn" onclick="closeModal('pro-modal')">Got it</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="privacy-modal" onclick="if(event.target===this)closeModal('privacy-modal')">
+  <div class="modal">
+    <h3>Privacy</h3>
+    <p>MendDays runs entirely in your browser. Your questionnaire answers, plan and no-contact streak are stored only in your browser&rsquo;s local storage on your device, and are never transmitted anywhere. There is no account and no server-side storage. The site uses GoatCounter, a privacy-friendly analytics tool, to count page views &mdash; it does not use cookies and does not collect personal data.</p>
+    <div style="text-align:right; margin-top:14px"><button class="m-btn" onclick="closeModal('privacy-modal')">Close</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="terms-modal" onclick="if(event.target===this)closeModal('terms-modal')">
+  <div class="modal">
+    <h3>Terms</h3>
+    <p>MendDays is provided as-is, free of charge, without warranty of any kind. It is a self-help tool for general wellbeing and is not medical advice, therapy, or a substitute for professional mental-health care. If you are in crisis, contact a professional or a crisis line (<a href="https://findahelpline.com" style="color:var(--accent)">findahelpline.com</a>). By using the site you accept that you are responsible for your own decisions and wellbeing.</p>
+    <div style="text-align:right; margin-top:14px"><button class="m-btn" onclick="closeModal('terms-modal')">Close</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+/* ============================================================
+   MendDays plan engine — pure data + builder (no DOM in here)
+   ============================================================ */
+
+var QUESTIONS = [
+  { key: 'duration', q: 'How long were you together?', opts: [
+    ['lt6m', 'Under 6 months'],
+    ['6m2y', '6 months – 2 years'],
+    ['2y5y', '2 – 5 years'],
+    ['5yplus', 'More than 5 years']
+  ]},
+  { key: 'since', q: 'How long ago was the breakup?', opts: [
+    ['week', 'Within the last week'],
+    ['month', 'A few weeks ago'],
+    ['3mo', '1 – 3 months ago'],
+    ['longer', 'More than 3 months ago']
+  ]},
+  { key: 'ender', q: 'Who ended it?', opts: [
+    ['them', 'They did'],
+    ['me', 'I did'],
+    ['mutual', 'Mutual / complicated']
+  ]},
+  { key: 'struggle', q: 'What hurts the most right now?', opts: [
+    ['contact', 'I can’t stop texting or checking on them'],
+    ['sleep', 'I can’t sleep'],
+    ['guilt', 'I keep blaming myself'],
+    ['anger', 'I’m so angry'],
+    ['empty', 'I feel completely empty']
+  ]},
+  { key: 'goal', q: 'In 30 days, what do you want most?', opts: [
+    ['moveon', 'To genuinely move on'],
+    ['rebuild', 'To rebuild myself'],
+    ['nosocial', 'To stop checking their social media']
+  ]}
+];
+
+var WEEKS = [
+  { n: 1, name: 'Survive', days: 'Days 1–7', blurb: 'Emotional first aid. No big lessons this week — just stability: no contact, sleep, food, one person who knows.' },
+  { n: 2, name: 'Feel', days: 'Days 8–14', blurb: 'Stop outrunning the grief and let it move through — on a schedule, with edges. Unsent letters, trigger sweeps, fairer self-talk.' },
+  { n: 3, name: 'Rebuild', days: 'Days 15–22', blurb: 'Get yourself back: the hobbies, the friends, the body, the space. The person you were before is still in there.' },
+  { n: 4, name: 'Forward', days: 'Days 23–30', blurb: 'Point yourself at something. New goals, boundaries for next time, a relapse plan, and a proper graduation.' }
+];
+
+function weekOf(n) { return n <= 7 ? 1 : n <= 14 ? 2 : n <= 22 ? 3 : 4; }
+
+/* a = { duration, since, ender, struggle, goal, name } */
+function buildPlan(a) {
+  var name = (a.name || '').trim();
+  var hey = name ? name + ', ' : '';
+  var longRel = (a.duration === '2y5y' || a.duration === '5yplus');
+  var fresh = (a.since === 'week');
+  var D = [];
+  function d(n, title, main, small, empathy) {
+    D.push({ day: n, week: weekOf(n), title: title, main: main, small: small, empathy: empathy });
+  }
+  /* pick by struggle / ender / goal with default */
+  function byS(map, def) { return map[a.struggle] !== undefined ? map[a.struggle] : def; }
+  function byE(map) { return map[a.ender] !== undefined ? map[a.ender] : map.mutual; }
+  function byG(map) { return map[a.goal] !== undefined ? map[a.goal] : map.moveon; }
+
+  /* ---------------- WEEK 1 — SURVIVE ---------------- */
+  d(1, 'Just get through today',
+    byS({
+      contact: 'Mute them everywhere — every chat, every feed, every story. Not block (yet), just mute. You can’t heal a wound you keep poking, and every notification is a poke.',
+      sleep: 'Pick a “phone parks here” spot outside your bedroom and a hard screens-off time one hour before bed. Tonight isn’t about fixing everything — it’s about giving your body one fair chance to rest.',
+      guilt: 'Write three sentences that start with “It is not all my fault, because…” You don’t have to believe them yet. Write them anyway — belief comes later, the sentences come first.',
+      anger: 'Give the anger somewhere to go that isn’t your phone: a fast walk, push-ups until your arms complain, a pillow to yell into. Anger is fuel — spend it on purpose, not on a text.',
+      empty: 'Give today a skeleton: a wake-up time, one real meal, one short walk. Write those three things down. When everything feels pointless, structure carries you until meaning comes back.'
+    }),
+    'Right now, before anything else: drink a glass of water and open a window. Small, physical, real.',
+    byE({
+      them: fresh
+        ? 'It just happened, and it hurts exactly as much as it feels like it does. You don’t have to be okay today — you just have to be here.'
+        : 'You didn’t choose this. You don’t have to make sense of it today — you just have to get through it. That’s the whole assignment.',
+      me: 'You ended it, and it still hurts. Both of those are true at once. Choosing to leave doesn’t mean you don’t get to grieve.',
+      mutual: 'Even when you both saw it coming, the silence afterwards is loud. Knowing didn’t make it lighter.'
+    }));
+
+  d(2, 'Your phone is not neutral territory',
+    byS({
+      contact: 'Archive the chat. Remove them from favorites. Delete the shortcut from your home screen. You’re not deleting history — you’re adding three extra steps between an urge and a mistake. Every tap you don’t make is a vote for the version of you that’s free.'
+    },
+    'Turn off the ambushes: photo “memories” notifications, shared app alerts, anything that can surprise you with their face at 9am. Your phone should be working for you this month.'),
+    'Change your lock screen to something neutral that you like — a place you want to visit someday works well.',
+    'Reaching for the phone isn’t weakness — it’s withdrawal. Your brain is looking for its usual painkiller. It will stop asking so often. Sooner than you think.');
+
+  d(3, 'Tell one person',
+    'Message or call one friend and say it plainly: “We broke up. I’m not okay yet.” You’re not asking for advice — you’re refusing to carry this alone. That’s different, and it’s enough.',
+    'If they offer to come over or call — say yes. Don’t perform being fine.',
+    byE({
+      them: 'Saying it out loud makes it real, and real is where healing starts. The people who love you want to be let in.',
+      me: 'You might feel like you don’t deserve comfort because you’re the one who left. You do. Hurt is hurt.',
+      mutual: 'No villain in your story can make it feel like there’s nothing to tell. There is. Tell it.'
+    }));
+
+  d(4, 'Build your bad-moment kit',
+    'On paper, write your emergency kit: one song that helps, one person you can text at 2am, one ten-minute distraction (shower, walk around the block, a dumb game), one comfort show. Stick it somewhere visible. When the wave hits, you won’t have to think — you’ll just follow the list.',
+    byS({
+      sleep: 'Kit extra for you: no caffeine after 2pm, starting today. Your 11pm self will thank you.',
+      contact: 'Kit extra for you: finish this sentence on the list — “When I want to text them, I text ___ instead.” Fill the blank now.',
+      anger: 'Kit extra for you: add one physical pressure valve to the list — the walk, the push-ups, the loud song.'
+    },
+    'Put the kit somewhere you can see it from your bed.'),
+    'Bad moments aren’t a sign the plan is failing. They’re the weather, not the climate.');
+
+  d(5, 'Outlast one urge',
+    byS({
+      contact: 'Tonight, when the urge to text them comes — and it will — write the message in your notes app instead. All of it, uncensored. Then close the app. The urge peaks and passes in about 15 minutes. Outlast it once and you’ll have proof, forever, that you can.',
+      sleep: 'Tonight’s protocol: same bedtime as yesterday, screens off 60 minutes before, tomorrow’s worries written on paper so your head doesn’t have to hold them. If you wake at 3am, don’t grab the phone — breathe in for 4, hold for 7, out for 8. Ten rounds.',
+      guilt: 'Today, every time the “it’s my fault” loop starts, write the thought down in one line instead of arguing with it. By tonight you’ll have a page of the same three sentences — and that’s the point. It’s a loop, not a verdict.',
+      anger: 'Write the furious message — every unfair thing, uncensored — somewhere they will never, ever see it. Then twenty jumping jacks. Fury belongs on paper and in muscles, not in the chat.',
+      empty: 'When the numbness gets loud today, do one sharp sensory thing: a hot shower, cold water on your face, the most flavorful thing in your kitchen. You’re not fixing anything — you’re reminding your body it’s alive. That’s enough for Day 5.'
+    }),
+    'Before bed, write one line to tomorrow-you: “You made it through today.” Because you did.',
+    'Urges lie. They say “just once” and they mean “start over”. You are stronger than a 15-minute wave.');
+
+  d(6, 'Move, gently',
+    byS({
+      anger: 'Pick movement with impact today: shadow boxing, sprints, the loudest workout playlist you own. Burn the fuel instead of drinking it.'
+    },
+    'Take a 20-minute walk outside. No destination, no breakup podcasts, no sad playlist. Just your legs, the air, and whatever you happen to notice.'),
+    'Eat one meal today with an actual vegetable in it. Recovery runs on boring fuel.',
+    'Your body has been carrying this too — the clenched jaw, the tight chest, the shallow breaths. Movement is how it finally exhales.');
+
+  d(7, 'One week. Look at that.',
+    'Write down three things you did this week that Day-1 you didn’t think possible. “I didn’t text them” counts. “I got up” counts. Surviving counts.',
+    'One small kind thing for yourself tonight — the good snack, the long shower, the early night. Earned.',
+    byE({
+      them: hey + 'a week ago this felt unsurvivable. You survived it. That’s not nothing — that’s evidence.',
+      me: hey + 'you made a hard call and lived through its hardest week. It takes strength to leave, and strength to stay gone.',
+      mutual: hey + 'one week of building a life that’s just yours. The foundation looks ugly and feels real — like all foundations.'
+    }));
+
+  /* ---------------- WEEK 2 — FEEL ---------------- */
+  d(8, 'Stop outrunning it',
+    (a.since === 'longer'
+      ? 'It’s been months, and part of you keeps saying you “should be over it by now”. There is no should — grief doesn’t read calendars. Today, set a timer for 15 minutes and let yourself feel all of it on purpose: cry, rage, miss them. When the timer rings, wash your face and make tea. Feelings, with edges.'
+      : 'Set a timer for 15 minutes and actually feel it — cry, miss them, hurt, all of it, on purpose. When the timer rings, wash your face and make tea. You’re teaching your feelings that they can visit without moving in.'),
+    'Pick your 15 minutes now and put it in your calendar like a meeting. Grief keeps appointments.',
+    'Grief you refuse to feel doesn’t disappear — it waits, and it charges interest. Grief you feel moves through.');
+
+  d(9, 'The unsent letter',
+    byE({
+      them: 'Write them a letter you will never send. Every unfair thing, every question they left you holding, every “how could you”. Don’t edit, don’t be reasonable, don’t be fair. This letter is for you, not them.',
+      me: 'Write the letter you can’t send: the full explanation, the apology for the hurt (not for the choice), the things you wish you’d said better. Guilt shrinks when it’s written down instead of circling.',
+      mutual: 'Write them a goodbye letter you’ll never send: what was real, what you’re grateful for, what you’re setting down. It mattered, and it ended — the letter gets to hold both.'
+    }),
+    'Seal it — an envelope, a locked note. Sending it is not on the menu. That’s exactly what makes it honest.',
+    'Everything you can’t say out loud still needs somewhere to go. Give it a page.');
+
+  d(10, 'Trigger sweep',
+    'Sweep your space: photos into one archive folder (not deleted — that decision belongs to a calmer month), their things into one box, out of sight. Gifts that became genuinely yours can stay. Shrines can’t.',
+    byS({
+      contact: 'While you’re sweeping: check the mutes from Day 1 are still holding. Re-mute anything that leaked through.'
+    },
+    'One sweep, one box, one hour maximum. This is logistics, not a ceremony — the ceremony comes on Day 30.'),
+    'Your home should be on your side. Every ambush you remove is one less fight you have to win.');
+
+  d(11, 'Talk to yourself like a friend',
+    byS({
+      guilt: 'Write down the harshest sentence you’ve said to yourself this week. Now write exactly what you’d say to your best friend if they said it about themselves. Read the second one out loud. That voice — the friend’s voice — is the only one that gets to talk to you this month.'
+    },
+    'Catch your self-talk today. Every time you call yourself stupid, broken, or too much — stop, and re-say it the way you’d say it to a friend. Not fake-positive. Just fair.'),
+    'Put one fair sentence about yourself on a sticky note where tomorrow-you will see it.',
+    'You wouldn’t let anyone talk to your friend the way you’ve been talking to you.');
+
+  d(12, 'Catch the story',
+    byS({
+      guilt: 'Your brain has settled on a story: “I ruined it.” Today, write that sentence at the top of a page — then list three things that were genuinely not in your control. The relationship had two authors. It always does.',
+      anger: 'Anger flattens the past into a cartoon: “they never cared”. Today, write one true good memory next to one true bad one. Both happened. You’re allowed to hold both without forgiving anything.'
+    },
+    'Your brain is writing a story — “I’ll always be alone”, “that was my one chance”. Today, write the story down in one sentence. Then write two pieces of evidence against it. Feelings aren’t facts; they’re weather with opinions.'),
+    'Notice one “always” or “never” thought today and just label it: story. You don’t have to fight it. Naming it is enough.',
+    'Pain writes excellent fiction. You don’t have to believe everything you think.');
+
+  d(13, 'New soundtrack',
+    'Make a “mine now” playlist — songs with zero history between you two. New artists, old favorites from before them, anything that’s only yours. It plays on every walk for the rest of this plan.',
+    'Mute, leave or archive the shared playlists. You can revisit them someday. Not this month.',
+    'Music is time travel. This month, you choose the destinations.');
+
+  d(14, 'Two weeks: how waves work',
+    'Check in, on paper: compared to Day 1 — sleeping better or worse? Urges stronger or weaker? What surprised you? No grades, just data. Healing isn’t a line going up; it’s waves getting smaller and further apart.',
+    'Tell one friend one specific thing that got easier. Saying progress out loud makes it stick.',
+    longRel
+      ? 'You’re unlearning years of habits — their name as your first text, their side of the bed, the “we” in your sentences. Be patient with the muscle memory. It took years to build; it doesn’t dissolve in two weeks.'
+      : 'Fourteen days of waves and you’re still standing. They keep getting smaller — not every single day, but on average. Trust the average.');
+
+  /* ---------------- WEEK 3 — REBUILD ---------------- */
+  d(15, 'Who were you before?',
+    'Make a list: things you loved before the relationship — hobbies that faded, food they didn’t like, friends you saw less, the music you turned down. Circle one. That one comes back this week.',
+    'Schedule the circled thing. A day and a time, in the calendar, like it matters. Because it does.',
+    'You weren’t half of a couple your whole life. That person is still in there — and they’ve been waiting for you.');
+
+  d(16,
+    byG({
+      moveon: 'Define “moved on”',
+      rebuild: 'Book the thing',
+      nosocial: 'The full detox'
+    }),
+    byG({
+      moveon: 'Write one sentence: “I’ll know I’ve moved on when ___.” Not “when I never think of them” — that’s not how memory works. Something real: “when I can hear their name and keep cooking dinner.” That’s your finish line, and it’s closer than it looks.',
+      rebuild: 'Pick one thing that’s only yours and make it real today: sign up for the class, buy the running shoes, create the project folder and the first file. Commit money or calendar time — something with weight, so it can hold you.',
+      nosocial: 'Today you go from muted to gone: unfollow, hide them from search suggestions, and mute the mutual friends whose stories are really just a window to them. Checking their page is tearing the bandage off to see if the wound healed. It heals faster in the dark.'
+    }),
+    byG({
+      moveon: 'Say your sentence out loud, once. It sounds different outside your head.',
+      rebuild: 'Tell one person what you committed to. Witnesses make it real.',
+      nosocial: 'Move the apps you check them on off your home screen tonight. Friction is your friend.'
+    }),
+    'Forward is a direction, not a speed.');
+
+  d(17, 'Reconnect',
+    'Message one friend you saw less during the relationship. No explanation or apology needed — just: “Hey, I’ve missed you. Coffee soon?” Relationships shrink worlds quietly; rebuilding yours starts with one text.',
+    'Actually set the date before the conversation ends. “Soon” is where plans go to die.',
+    'The people who knew you before will help you remember who that was.');
+
+  d(18, 'Body audit',
+    'A quick, honest audit: how are sleep, food, movement and alcohol this week? Pick the single worst one and make one small fix today — a real breakfast, a 10pm wind-down alarm, a walk after lunch. One fix. Not a life overhaul.',
+    'Water before every coffee today. That’s it, that’s the task.',
+    'Your body kept the score these weeks. Start paying it back — small bills are fine.');
+
+  d(19, 'Reclaim the space',
+    'Change one corner of your home so it’s yours: move the furniture, new sheets, a plant, the poster from before. Your space shouldn’t feel like a museum of the relationship with the exhibits removed.',
+    'Fix the light: curtains all the way open, or one warm lamp in the evening corner. Rooms feel like their lighting.',
+    'Home should be where you exhale — not where you remember.');
+
+  d(20, 'Say yes',
+    'Say yes to one invitation this week — or create one: invite someone for food, a walk, a game night. You don’t have to be fun. You don’t have to talk about the breakup. You just have to be there.',
+    'If a group feels like too much, make it one person. One is plenty.',
+    'Connection is the opposite of the hole they left. Not romance — just people.');
+
+  d(21, 'Three weeks strong',
+    'Look at your no-contact streak. Look at your Day-7 list. Now write one sentence about the difference between Day-1 you and today-you. Then plan one small reward for tonight — earned, not deserved-maybe. Earned.',
+    'If you slipped somewhere this week — contact, checking, whatever — write it down without drama and move on. Slips are data, not verdicts.',
+    byE({
+      them: 'Three weeks ago, someone else decided your future without asking. Look who’s deciding it now.',
+      me: 'Three weeks of holding a hard decision without wavering back. That’s not coldness. That’s clarity.',
+      mutual: 'Three weeks of building separately. The “we” is becoming a “me” — and it suits you.'
+    }));
+
+  d(22, 'The inventory',
+    'Write down what the relationship actually taught you: a skill, a boundary you’ll never drop again, a thing you now know you need, a thing you know you won’t tolerate. Real items, not greeting-card ones. Pain that teaches isn’t wasted.',
+    'Keep this list somewhere safe. It’s the entrance exam for whoever comes next.',
+    'It wasn’t all loss. You’re leaving with luggage you’ll actually use.');
+
+  /* ---------------- WEEK 4 — FORWARD ---------------- */
+  d(23, 'The 90-day horizon',
+    'Set one goal for 90 days from now with zero connection to them: run a 5k, save a number, finish a course, build a thing. Write it down with a date. Your future needs something pulling you forward — not just a past pushing from behind.',
+    'Do the first ten minutes of it today. Not tomorrow. The first ten minutes are the whole battle.',
+    'A future you’re excited about is the strongest no-contact tool ever invented.');
+
+  d(24,
+    byG({
+      moveon: 'The honesty check',
+      rebuild: 'Plan the next brick',
+      nosocial: 'Rules, written down'
+    }),
+    byG({
+      moveon: 'Ask yourself, on paper: “If they texted ‘I miss you’ tonight, what would I do?” Answer honestly — if the answer scares you, that’s a direction sign, not a failure. Then write what you’d want future-you to do instead, and why.',
+      rebuild: 'Your Day-16 commitment — how’s it actually going? Plan the next concrete step and put it in the calendar. Rebuilding is boring on purpose: brick, brick, brick — and one morning it’s a house.',
+      nosocial: 'Write your social-media rules for the next 60 days: stay unfollowed, no checking mutuals’ tags, no “just seeing if they posted”. Three rules maximum, written down. Rules you wrote survive moods; vibes don’t.'
+    }),
+    byG({
+      moveon: 'Save the answer where you can find it on the night they actually text.',
+      rebuild: 'Next step in the calendar before you sleep tonight.',
+      nosocial: 'Tell the friend most likely to update you about them: “Please don’t.”'
+    }),
+    'Discipline is just self-respect with a schedule.');
+
+  d(25, 'The boundary letter',
+    'Write a short letter to future-you about the next relationship, whenever that is: what you will never again accept, what you’ll ask for out loud instead of silently hoping for, the early signs you’ll stop explaining away. This is the breakup paying rent.',
+    'Three boundaries minimum, and make them specific — “respect” is a vibe; “doesn’t go silent for days when upset” is a boundary.',
+    'The next person gets to meet a you who knows the price of ignored red flags.');
+
+  d(26, 'Both things were true',
+    byS({
+      guilt: 'Two columns: “What was genuinely good” and “Why it genuinely had to end”. Fill both, honestly. If your fault-finding brain hijacks column two into “because I ruined it” — that’s the loop, not a reason. Real reasons are about fit, timing, needs. Two people’s worth.',
+      anger: 'Two columns: “What was genuinely good” and “Why it genuinely had to end”. The anger will want to burn column one to the ground. Don’t let it — a thing can have been good AND right to end. Writing down the good doesn’t mean going back.'
+    },
+    'Two columns: “What was genuinely good” and “Why it genuinely had to end”. Fill both. Honoring what was real while accepting why it ended — that’s what closure actually is. Nobody hands it to you. You write it.'),
+    'Read both columns once, out loud, then put the page away.',
+    byE({
+      them: 'It can have been real, and they can still have left. Their leaving doesn’t unwrite what was true.',
+      me: 'It can have been good, and you can still have been right to go.',
+      mutual: 'It was real, and it was finished. Both, at once. That’s the whole truth.'
+    }));
+
+  d(27, 'The relapse plan',
+    'You will miss them again — a random Tuesday, a song, their birthday. Plan for it now, in writing: “When the wave hits, I will (1) not act for 15 minutes, (2) open my Day-4 kit, (3) text ___ if it’s bad.” Missing them is a memory firing — not a message you have to answer.',
+    'Save the plan in your phone notes, titled “Read me first”. Future-you will find it exactly when it’s needed.',
+    'Future waves aren’t failure. They’re proof it mattered — and they pass faster every single time.');
+
+  d(28, 'Do the forbidden thing',
+    'Do one thing today they never wanted to do with you: the food they hated, the movie genre they mocked, the hobby they called boring. Order it, watch it, do it — gloriously alone, or with a friend who gets it.',
+    'Notice how it tastes when it’s one hundred percent your choice.',
+    'Freedom shows up first in small, petty, delicious ways. Enjoy every one of them.');
+
+  d(29, 'Write to Day-1 you',
+    'Write a short letter to the person who started this plan 29 days ago. Tell them what’s coming, what gets easier, what you know now that they didn’t. Be as kind to them as they needed someone to be.',
+    'Keep it next to the unsent letter from Day 9. One is a wound; the other is a scar. Feel the difference.',
+    hey + 'look how far that person walked.');
+
+  d(30, 'Graduation',
+    'A small ceremony, alone, tonight: re-read your Day-9 letter, then your Day-29 letter. Write two final lines — “What I’m leaving behind: ___” and “What I’m taking with me: ___”. Then mark it physically: burn the page safely, plant something, cook the good meal, light the candle. Ceremony is how endings become real.',
+    'Tomorrow there’s no Day 31 task. There’s just your life — and the tracker, if the streak still feels good. (It will.)',
+    byG({
+      moveon: hey + 'thirty days ago this plan was about them. Look at this last week — it became about you. That’s what moving on actually looks like.',
+      rebuild: hey + 'you didn’t just survive the demolition — you started building. Keep laying bricks. The house is going to be beautiful.',
+      nosocial: hey + 'thirty days, and their feed is no longer the front page of your morning. That attention is yours again. Spend it loudly.'
+    }));
+
+  return D;
+}
+
+if (typeof module !== 'undefined' && module.exports) { module.exports = { buildPlan: buildPlan, QUESTIONS: QUESTIONS }; }
+</script>
+
+<script>
+'use strict';
+/* ============================================================
+   MendDays app — DOM wiring, quiz, plan render, tracker
+   ============================================================ */
+
+var QUIZ_KEY = 'menddays_quiz';
+var TRACK_KEY = 'menddays_tracker';
+var FREE_DAYS = 7;
+var MILESTONES = [3, 7, 14, 30];
+
+function $(id) { return document.getElementById(id); }
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function localDate(d) {
+  d = d || new Date();
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+function yesterdayStr() {
+  var d = new Date();
+  d.setDate(d.getDate() - 1);
+  return localDate(d);
+}
+function loadJSON(key) {
+  try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; }
+}
+function saveJSON(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) { /* private mode */ }
+}
+
+/* ---------- toast ---------- */
+var toastTimer = null;
+function toast(msg, warm) {
+  var t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (warm ? ' warm' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { t.className = 'toast'; }, 3200);
+}
+
+/* ---------- modals ---------- */
+function openModal(id) { $(id).classList.add('open'); }
+function closeModal(id) { $(id).classList.remove('open'); }
+function openPro(reason) { openModal('pro-modal'); }
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    var open = document.querySelectorAll('.modal-bg.open');
+    for (var i = 0; i < open.length; i++) open[i].classList.remove('open');
+  }
+});
+
+/* ---------- quiz render ---------- */
+function renderQuiz(prefill) {
+  var host = $('quiz-questions');
+  host.innerHTML = '';
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var wrap = document.createElement('div');
+    wrap.className = 'q';
+    wrap.id = 'q-' + q.key;
+    var title = document.createElement('div');
+    title.className = 'q-title';
+    var num = document.createElement('span');
+    num.className = 'qnum';
+    num.textContent = (i + 1) + '.';
+    title.appendChild(num);
+    title.appendChild(document.createTextNode(q.q));
+    wrap.appendChild(title);
+    var opts = document.createElement('div');
+    opts.className = 'opts';
+    for (var j = 0; j < q.opts.length; j++) {
+      var o = q.opts[j];
+      var holder = document.createElement('span');
+      holder.className = 'opt';
+      var input = document.createElement('input');
+      input.type = 'radio';
+      input.name = q.key;
+      input.value = o[0];
+      input.id = 'opt-' + q.key + '-' + o[0];
+      if (prefill && prefill[q.key] === o[0]) input.checked = true;
+      input.addEventListener('change', (function (w) {
+        return function () { w.classList.remove('missing'); };
+      })(wrap));
+      var label = document.createElement('label');
+      label.htmlFor = input.id;
+      label.textContent = o[1];
+      holder.appendChild(input);
+      holder.appendChild(label);
+      opts.appendChild(holder);
+    }
+    wrap.appendChild(opts);
+    host.appendChild(wrap);
+  }
+  if (prefill && prefill.name) $('q-name').value = prefill.name;
+}
+
+function readQuiz() {
+  var answers = {};
+  var missing = [];
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var checked = document.querySelector('input[name="' + q.key + '"]:checked');
+    $('q-' + q.key).classList.remove('missing');
+    if (checked) answers[q.key] = checked.value;
+    else missing.push(q.key);
+  }
+  answers.name = $('q-name').value.trim().slice(0, 20);
+  return { answers: answers, missing: missing };
+}
+
+function generatePlan() {
+  var r = readQuiz();
+  if (r.missing.length) {
+    for (var i = 0; i < r.missing.length; i++) $('q-' + r.missing[i]).classList.add('missing');
+    $('quiz-msg').classList.add('show');
+    $('q-' + r.missing[0]).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  $('quiz-msg').classList.remove('show');
+  saveJSON(QUIZ_KEY, r.answers);
+  showPlan(r.answers);
+  $('plan-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function retakeQuiz() {
+  var saved = loadJSON(QUIZ_KEY);
+  renderQuiz(saved);
+  $('quiz-card').classList.remove('hidden');
+  $('quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---------- plan render ---------- */
+function labelFor(key, val) {
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    if (QUESTIONS[i].key !== key) continue;
+    for (var j = 0; j < QUESTIONS[i].opts.length; j++) {
+      if (QUESTIONS[i].opts[j][0] === val) return QUESTIONS[i].opts[j][1];
+    }
+  }
+  return '';
+}
+
+function dayBody(item) {
+  var body = document.createElement('div');
+  body.className = 'day-body';
+  var rowMain = document.createElement('div');
+  rowMain.className = 'day-row';
+  var tag1 = document.createElement('span'); tag1.className = 'tag'; tag1.textContent = 'Task';
+  var txt1 = document.createElement('span'); txt1.className = 'txt'; txt1.textContent = item.main;
+  rowMain.appendChild(tag1); rowMain.appendChild(txt1);
+  var rowSmall = document.createElement('div');
+  rowSmall.className = 'day-row small-row';
+  var tag2 = document.createElement('span'); tag2.className = 'tag'; tag2.textContent = 'Also';
+  var txt2 = document.createElement('span'); txt2.className = 'txt'; txt2.textContent = item.small;
+  rowSmall.appendChild(tag2); rowSmall.appendChild(txt2);
+  var quote = document.createElement('div');
+  quote.className = 'day-quote';
+  quote.textContent = item.empathy;
+  body.appendChild(rowMain);
+  body.appendChild(rowSmall);
+  body.appendChild(quote);
+  return body;
+}
+
+function showPlan(answers) {
+  var plan = buildPlan(answers);
+  $('quiz-card').classList.add('hidden');
+  $('plan-section').classList.remove('hidden');
+
+  $('plan-title').textContent = answers.name
+    ? answers.name + ', here’s your 30-day plan'
+    : 'Your 30-day plan';
+  $('plan-sub').textContent = 'Built from your answers — one day at a time, four phases: Survive, Feel, Rebuild, Forward. Do today’s card. That’s the whole job.';
+
+  var chips = $('plan-chips');
+  chips.innerHTML = '';
+  var chipKeys = ['since', 'ender', 'struggle', 'goal'];
+  for (var c = 0; c < chipKeys.length; c++) {
+    var span = document.createElement('span');
+    span.className = 'chip';
+    span.textContent = labelFor(chipKeys[c], answers[chipKeys[c]]);
+    chips.appendChild(span);
+  }
+
+  var host = $('plan-days');
+  host.innerHTML = '';
+  var currentWeek = 0;
+  for (var i = 0; i < plan.length; i++) {
+    var item = plan[i];
+    if (item.week !== currentWeek) {
+      currentWeek = item.week;
+      var w = WEEKS[currentWeek - 1];
+      var wh = document.createElement('div');
+      wh.className = 'week-head';
+      var h3 = document.createElement('h3');
+      var sp = document.createElement('span');
+      sp.textContent = 'Week ' + w.n + ' — ' + w.name + '.';
+      h3.appendChild(sp);
+      h3.appendChild(document.createTextNode(' ' + w.days));
+      var bp = document.createElement('p');
+      bp.textContent = w.blurb;
+      wh.appendChild(h3);
+      wh.appendChild(bp);
+      host.appendChild(wh);
+    }
+    var card = document.createElement('div');
+    card.className = 'day-card';
+    var head = document.createElement('div');
+    head.className = 'day-head';
+    var numEl = document.createElement('span');
+    numEl.className = 'day-num';
+    numEl.textContent = 'Day ' + item.day;
+    var titleEl = document.createElement('span');
+    titleEl.className = 'day-title';
+    titleEl.textContent = item.title;
+    head.appendChild(numEl);
+    head.appendChild(titleEl);
+    card.appendChild(head);
+    card.appendChild(dayBody(item));
+
+    if (item.day > FREE_DAYS) {
+      card.classList.add('locked');
+      var overlay = document.createElement('div');
+      overlay.className = 'lock-overlay';
+      var ic = document.createElement('div');
+      ic.className = 'lock-ic';
+      ic.textContent = '🔒';
+      var tx = document.createElement('div');
+      tx.className = 'lock-txt';
+      tx.textContent = 'Day ' + item.day + ' · Unlock with Pro — $9 lifetime';
+      overlay.appendChild(ic);
+      overlay.appendChild(tx);
+      card.appendChild(overlay);
+      card.addEventListener('click', function () { openPro('locked-day'); });
+    }
+    host.appendChild(card);
+  }
+}
+
+/* ---------- no-contact tracker ---------- */
+function trackerState() {
+  var s = loadJSON(TRACK_KEY);
+  if (!s || typeof s !== 'object') s = {};
+  return {
+    streak: s.streak || 0,
+    best: s.best || 0,
+    last: s.last || null,
+    badges: s.badges || []
+  };
+}
+
+function renderTracker() {
+  var s = trackerState();
+  $('streak-num').textContent = s.streak;
+  $('streak-best').innerHTML = s.best > 0 ? 'Personal best: <b>' + s.best + ' days</b>' : 'Check in today to start your streak.';
+  var btn = $('checkin-btn');
+  if (s.last === localDate()) {
+    btn.classList.add('done');
+    btn.disabled = true;
+    btn.innerHTML = 'Checked in for today ✓';
+  } else {
+    btn.classList.remove('done');
+    btn.disabled = false;
+    btn.innerHTML = 'I didn’t contact them today ✓';
+  }
+  var host = $('badges');
+  host.innerHTML = '';
+  var icons = ['🌱', '🛡️', '🔥', '🏆'];
+  for (var i = 0; i < MILESTONES.length; i++) {
+    var m = MILESTONES[i];
+    var b = document.createElement('div');
+    b.className = 'badge' + (s.badges.indexOf(m) > -1 ? ' earned' : '');
+    var bi = document.createElement('div'); bi.className = 'b-ic'; bi.textContent = icons[i];
+    var bn = document.createElement('div'); bn.className = 'b-n'; bn.textContent = m;
+    var bt = document.createElement('div'); bt.className = 'b-t'; bt.textContent = 'days';
+    b.appendChild(bi); b.appendChild(bn); b.appendChild(bt);
+    host.appendChild(b);
+  }
+}
+
+function checkIn() {
+  var s = trackerState();
+  var today = localDate();
+  if (s.last === today) { toast('Already checked in today — see you tomorrow.'); return; }
+  if (s.last === yesterdayStr()) s.streak += 1;
+  else s.streak = 1;
+  s.last = today;
+  if (s.streak > s.best) s.best = s.streak;
+  var newBadge = null;
+  for (var i = 0; i < MILESTONES.length; i++) {
+    if (s.streak >= MILESTONES[i] && s.badges.indexOf(MILESTONES[i]) === -1) {
+      s.badges.push(MILESTONES[i]);
+      newBadge = MILESTONES[i];
+    }
+  }
+  saveJSON(TRACK_KEY, s);
+  $('slip-note').classList.remove('show');
+  renderTracker();
+  if (newBadge) toast('Badge earned: ' + newBadge + ' days of no contact. Seriously impressive.');
+  else if (s.streak === 1) toast('Day 1. The hardest one. It’s done.');
+  else toast('Day ' + s.streak + ' — streak saved.');
+}
+
+function slip() {
+  var s = trackerState();
+  s.streak = 0;
+  s.last = null;
+  saveJSON(TRACK_KEY, s);
+  renderTracker();
+  $('slip-note').classList.add('show');
+  toast('Day 0 is still a day. Restart, don’t quit.', true);
+}
+
+/* ---------- init ---------- */
+(function init() {
+  var saved = loadJSON(QUIZ_KEY);
+  renderQuiz(saved);
+  if (saved && saved.struggle && saved.ender && saved.goal && saved.duration && saved.since) {
+    showPlan(saved);
+  }
+  renderTracker();
+})();
+</script>
+<script>
+  window.goatcounter = { path: function(p) { return location.host + p; } };
+</script>
+<script data-goatcounter="https://robin0725.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
