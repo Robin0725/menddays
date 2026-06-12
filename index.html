@@ -675,7 +675,8 @@ window.MENDDAYS_LANG['en'] = /*__EN_PACK_START__*/{
     freeTextOpt: '(optional)',
     freeTextPh: 'Anything you want the plan to know — what happened, what you miss the most, what tomorrow feels like…',
     aiLoading: 'Writing your plan like a friend would — give it a few breaths',
-    aiFail: 'The AI helper didn’t answer just now, so here’s your handcrafted plan — still built entirely from your answers. You can try AI again later via “Retake quiz”.',
+    aiFail: 'The AI helper didn’t answer just now, so here’s your handcrafted plan — still built entirely from your answers. Refresh the page and it will quietly try again.',
+    aiQuota: 'Today’s AI letters are used up (5 per day — they return tomorrow). Your handcrafted plan below is still built entirely from your answers.',
     letterHead: 'A letter, before Day 1',
     planTitle: 'Your 30-day plan',
     planTitleName: '{name}, here’s your 30-day plan',
@@ -1692,6 +1693,9 @@ function setAIStatus(mode) {
   } else if (mode === 'fail') {
     el.className = 'ai-status show';
     el.textContent = L.ui.aiFail;
+  } else if (mode === 'quota') {
+    el.className = 'ai-status show';
+    el.textContent = L.ui.aiQuota || L.ui.aiFail;
   } else {
     el.className = 'ai-status';
     el.textContent = '';
@@ -1719,7 +1723,7 @@ function fetchAI(answers) {
     }),
     signal: ctrl ? ctrl.signal : undefined
   }).then(function (resp) {
-    if (!resp.ok) throw new Error('http ' + resp.status);
+    if (!resp.ok) throw new Error(resp.status === 429 ? 'quota' : 'http ' + resp.status);
     return resp.json();
   }).then(function (data) {
     clearTimeout(timer);
@@ -1729,10 +1733,10 @@ function fetchAI(answers) {
     setAIStatus('off');
     var saved = loadJSON(QUIZ_KEY);
     if (saved && aiSig(saved) === sig) showPlan(saved); /* re-render with the AI week */
-  }).catch(function () {
+  }).catch(function (err) {
     clearTimeout(timer);
     AI_PENDING = false;
-    setAIStatus('fail');
+    setAIStatus(err && err.message === 'quota' ? 'quota' : 'fail');
   });
 }
 
