@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['zh-CN'] = {
     namePlaceholder: '名字或昵称',
     buildBtn: '生成我的 30 天计划',
     quizMsg: '请先回答标红的问题。',
+    multiHint: '可多选',
     quizNote: '你的回答不会离开这台设备。无账号、无邮箱、不向任何地方发送。',
     planTitle: '你的 30 天计划',
     planTitleName: '{name}，这是你的 30 天计划',

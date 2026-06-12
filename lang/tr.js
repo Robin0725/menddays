@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['tr'] = {
     namePlaceholder: 'Bir isim ya da takma ad',
     buildBtn: '30 günlük planımı oluştur',
     quizMsg: 'Önce işaretli soruları yanıtla.',
+    multiHint: 'birden fazla seçebilirsin',
     quizNote: 'Yanıtların bu cihazdan asla çıkmaz. Hesap yok, e-posta yok, hiçbir yere hiçbir şey gönderilmez.',
     planTitle: '30 günlük planın',
     planTitleName: '{name}, işte 30 günlük planın',

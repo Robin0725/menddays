@@ -104,6 +104,7 @@
   .q { margin-bottom: 20px; }
   .q-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
   .q-title .qnum { color: var(--accent); margin-inline-end: 6px; }
+  .q-title .multi-hint { font-size: 12px; font-weight: 400; color: var(--muted); margin-inline-start: 8px; white-space: nowrap; }
   .q.missing .q-title { color: var(--danger); }
   .opts { display: flex; flex-wrap: wrap; gap: 8px; }
   .opt { position: relative; }
@@ -602,6 +603,7 @@ window.MENDDAYS_LANG['en'] = /*__EN_PACK_START__*/{
     buildBtn: 'Build my 30-day plan',
     quizMsg: 'Please answer the highlighted questions first.',
     quizNote: 'Your answers never leave this device. No account, no email, nothing sent anywhere.',
+    multiHint: 'choose all that apply',
     planTitle: 'Your 30-day plan',
     planTitleName: '{name}, here’s your 30-day plan',
     planSub: 'Built from your answers — one day at a time, four phases: Survive, Feel, Rebuild, Forward. Do today’s card. That’s the whole job.',
@@ -1004,19 +1006,34 @@ function pick(v, a) {
   return '';
 }
 
+/* struggle/goal may be multi-select arrays. Each day leans on ONE selected
+   item, rotating day by day so every selection gets real attention across
+   the 30 days (a single selection behaves exactly like the old radio). */
+function rotated(val, day) {
+  if (Object.prototype.toString.call(val) === '[object Array]') {
+    return val.length ? val[(day - 1) % val.length] : undefined;
+  }
+  return val;
+}
+
 /* a = { duration, since, ender, struggle, goal, name }; pack = a language pack */
 function buildPlan(a, pack) {
   var P = pack.plan;
   var D = [];
   for (var n = 1; n <= 30; n++) {
     var src = P['d' + n];
+    var ctx = {
+      duration: a.duration, since: a.since, ender: a.ender, name: a.name,
+      struggle: rotated(a.struggle, n),
+      goal: rotated(a.goal, n)
+    };
     D.push({
       day: n,
       week: weekOf(n),
-      title: pick(src.title, a),
-      main: pick(src.main, a),
-      small: pick(src.small, a),
-      empathy: pick(src.empathy, a)
+      title: pick(src.title, ctx),
+      main: pick(src.main, ctx),
+      small: pick(src.small, ctx),
+      empathy: pick(src.empathy, ctx)
     });
   }
   return D;
@@ -1038,6 +1055,18 @@ var TRACK_KEY = 'menddays_tracker';
 var LANG_KEY = 'menddays_lang';
 var FREE_DAYS = 7;
 var MILESTONES = [3, 7, 14, 30];
+/* multi-select questions; answers stored as arrays (legacy string answers still accepted) */
+var MULTI_KEYS = { struggle: true, goal: true };
+
+function hasAnswer(v) {
+  if (Object.prototype.toString.call(v) === '[object Array]') return v.length > 0;
+  return !!v;
+}
+
+function answerList(v) {
+  if (Object.prototype.toString.call(v) === '[object Array]') return v;
+  return v ? [v] : [];
+}
 
 var LANGS = [
   ['en', 'English'],
@@ -1123,8 +1152,18 @@ function readQuizLoose() {
   var out = {};
   var qs = L.questions;
   for (var i = 0; i < qs.length; i++) {
-    var checked = document.querySelector('input[name="' + qs[i].key + '"]:checked');
-    if (checked) out[qs[i].key] = checked.value;
+    var key = qs[i].key;
+    if (MULTI_KEYS[key]) {
+      var all = document.querySelectorAll('input[name="' + key + '"]:checked');
+      if (all.length) {
+        var vals = [];
+        for (var j = 0; j < all.length; j++) vals.push(all[j].value);
+        out[key] = vals;
+      }
+    } else {
+      var checked = document.querySelector('input[name="' + key + '"]:checked');
+      if (checked) out[key] = checked.value;
+    }
   }
   var nameEl = $('q-name');
   if (nameEl && nameEl.value) out.name = nameEl.value;
@@ -1132,7 +1171,7 @@ function readQuizLoose() {
 }
 
 function quizComplete(a) {
-  return !!(a && a.duration && a.since && a.ender && a.struggle && a.goal);
+  return !!(a && hasAnswer(a.duration) && hasAnswer(a.since) && hasAnswer(a.ender) && hasAnswer(a.struggle) && hasAnswer(a.goal));
 }
 
 function applyLang(code) {
@@ -1266,6 +1305,12 @@ function renderQuiz(prefill) {
     num.textContent = (i + 1) + '.';
     title.appendChild(num);
     title.appendChild(document.createTextNode(q.q));
+    if (MULTI_KEYS[q.key] && L.ui.multiHint) {
+      var hint = document.createElement('span');
+      hint.className = 'multi-hint';
+      hint.textContent = '· ' + L.ui.multiHint;
+      title.appendChild(hint);
+    }
     wrap.appendChild(title);
     var opts = document.createElement('div');
     opts.className = 'opts';
@@ -1274,11 +1319,11 @@ function renderQuiz(prefill) {
       var holder = document.createElement('span');
       holder.className = 'opt';
       var input = document.createElement('input');
-      input.type = 'radio';
+      input.type = MULTI_KEYS[q.key] ? 'checkbox' : 'radio';
       input.name = q.key;
       input.value = o[0];
       input.id = 'opt-' + q.key + '-' + o[0];
-      if (prefill && prefill[q.key] === o[0]) input.checked = true;
+      if (prefill && answerList(prefill[q.key]).indexOf(o[0]) !== -1) input.checked = true;
       input.addEventListener('change', (function (w) {
         return function () { w.classList.remove('missing'); };
       })(wrap));
@@ -1301,10 +1346,19 @@ function readQuiz() {
   var QUESTIONS = L.questions;
   for (var i = 0; i < QUESTIONS.length; i++) {
     var q = QUESTIONS[i];
-    var checked = document.querySelector('input[name="' + q.key + '"]:checked');
     $('q-' + q.key).classList.remove('missing');
-    if (checked) answers[q.key] = checked.value;
-    else missing.push(q.key);
+    if (MULTI_KEYS[q.key]) {
+      var all = document.querySelectorAll('input[name="' + q.key + '"]:checked');
+      if (all.length) {
+        var vals = [];
+        for (var j = 0; j < all.length; j++) vals.push(all[j].value);
+        answers[q.key] = vals;
+      } else missing.push(q.key);
+    } else {
+      var checked = document.querySelector('input[name="' + q.key + '"]:checked');
+      if (checked) answers[q.key] = checked.value;
+      else missing.push(q.key);
+    }
   }
   answers.name = $('q-name').value.trim().slice(0, 20);
   return { answers: answers, missing: missing };
@@ -1379,10 +1433,13 @@ function showPlan(answers) {
   chips.innerHTML = '';
   var chipKeys = ['since', 'ender', 'struggle', 'goal'];
   for (var c = 0; c < chipKeys.length; c++) {
-    var span = document.createElement('span');
-    span.className = 'chip';
-    span.textContent = labelFor(chipKeys[c], answers[chipKeys[c]]);
-    chips.appendChild(span);
+    var vals = answerList(answers[chipKeys[c]]);
+    for (var v = 0; v < vals.length; v++) {
+      var span = document.createElement('span');
+      span.className = 'chip';
+      span.textContent = labelFor(chipKeys[c], vals[v]);
+      chips.appendChild(span);
+    }
   }
 
   var host = $('plan-days');

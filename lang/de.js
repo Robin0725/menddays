@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['de'] = {
     namePlaceholder: 'Ein Name oder Spitzname',
     buildBtn: 'Meinen 30-Tage-Plan erstellen',
     quizMsg: 'Beantworte bitte zuerst die markierten Fragen.',
+    multiHint: 'Mehrfachauswahl möglich',
     quizNote: 'Deine Antworten verlassen dieses Gerät nie. Kein Konto, keine E-Mail, nichts wird irgendwohin geschickt.',
     planTitle: 'Dein 30-Tage-Plan',
     planTitleName: '{name}, hier ist dein 30-Tage-Plan',

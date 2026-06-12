@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['vi'] = {
     namePlaceholder: 'Tên hoặc biệt danh',
     buildBtn: 'Tạo kế hoạch 30 ngày của tôi',
     quizMsg: 'Bạn trả lời giúp những câu được đánh dấu trước nhé.',
+    multiHint: 'chọn được nhiều mục',
     quizNote: 'Câu trả lời của bạn không bao giờ rời khỏi thiết bị này. Không tài khoản, không email, không gửi đi đâu cả.',
     planTitle: 'Kế hoạch 30 ngày của bạn',
     planTitleName: '{name} ơi, đây là kế hoạch 30 ngày của bạn',

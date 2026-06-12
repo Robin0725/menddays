@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['id'] = {
     namePlaceholder: 'Nama atau panggilan',
     buildBtn: 'Buat rencana 30 hariku',
     quizMsg: 'Tolong jawab dulu pertanyaan yang ditandai.',
+    multiHint: 'pilih semua yang sesuai',
     quizNote: 'Jawabanmu tidak pernah meninggalkan perangkat ini. Tanpa akun, tanpa email, tidak ada yang dikirim ke mana pun.',
     planTitle: 'Rencana 30 harimu',
     planTitleName: '{name}, ini rencana 30 harimu',

@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['ja'] = {
     namePlaceholder: '名前かニックネーム',
     buildBtn: '30日プランをつくる',
     quizMsg: 'ハイライトされた質問に、先に答えてくださいね。',
+    multiHint: '複数選択できます',
     quizNote: 'あなたの回答はこの端末から一歩も外に出ません。アカウントもメールも不要、どこにも送信されません。',
     planTitle: 'あなたの30日プラン',
     planTitleName: '{name}さん、これがあなたの30日プランです',

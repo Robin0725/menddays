@@ -11,6 +11,7 @@ window.MENDDAYS_LANG['ko'] = {
     namePlaceholder: '이름이나 별명',
     buildBtn: '내 30일 플랜 만들기',
     quizMsg: '표시된 질문에 먼저 답해 주세요.',
+    multiHint: '복수 선택 가능',
     quizNote: '답변은 이 기기를 절대 떠나지 않아요. 계정도, 이메일도 필요 없고, 어디로도 전송되지 않아요.',
     planTitle: '나의 30일 플랜',
     planTitleName: '{name} 님의 30일 플랜이에요',
