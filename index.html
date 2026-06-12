@@ -157,6 +157,32 @@
   .btn.ghost { background: transparent; border: 1px solid var(--accent-line); color: var(--accent); font-weight: 700; }
   .quiz-msg { display: none; color: var(--danger); font-size: 13px; margin-top: 10px; text-align: center; }
   .quiz-msg.show { display: block; }
+  /* ---------- AI companion opt-in ---------- */
+  .ai-box { background: var(--panel2); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+  .ai-toggle { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+  .ai-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+  .ai-switch { flex: 0 0 auto; width: 40px; height: 22px; border-radius: 99px; background: var(--border); position: relative; transition: background .2s; margin-top: 2px; }
+  .ai-switch::after { content: ''; position: absolute; top: 3px; inset-inline-start: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--text); transition: transform .2s; }
+  .ai-toggle input:checked + .ai-switch { background: var(--accent); }
+  .ai-toggle input:checked + .ai-switch::after { transform: translateX(18px); }
+  [dir="rtl"] .ai-toggle input:checked + .ai-switch::after { transform: translateX(-18px); }
+  .ai-toggle input:focus-visible + .ai-switch { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ai-title { font-weight: 700; font-size: 15px; }
+  .ai-desc { color: var(--muted); font-size: 13px; line-height: 1.55; display: block; margin-top: 3px; }
+  .ai-privacy { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px; }
+  .ai-extra { display: none; margin-top: 12px; }
+  .ai-box.on .ai-extra { display: block; }
+  .ai-extra textarea { width: 100%; background: var(--panel); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 10px 12px; font-size: 14px; font-family: inherit; line-height: 1.5; resize: vertical; min-height: 72px; }
+  .ai-extra textarea:focus { outline: none; border-color: var(--accent); }
+  /* ---------- AI letter + status ---------- */
+  .ai-letter { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 14px; padding: 18px; margin-bottom: 22px; }
+  .ai-letter h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 10px; }
+  .ai-letter p { font-size: 15px; line-height: 1.7; white-space: pre-line; }
+  .ai-status { display: none; background: var(--panel2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; font-size: 14px; color: var(--muted); }
+  .ai-status.show { display: block; }
+  .ai-status.loading { color: var(--text); }
+  .ai-status .dots::after { content: '…'; animation: aidots 1.4s steps(4) infinite; }
+  @keyframes aidots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
   .quiz-note { color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 12px; text-align: center; }
 
   /* ---------- plan ---------- */
@@ -437,6 +463,18 @@
       <div class="q-title"><span class="qnum">6.</span><span id="name-q">What should the plan call you?</span> <span id="name-opt" style="color:var(--muted);font-weight:400">(optional)</span></div>
       <input type="text" id="q-name" maxlength="20" placeholder="A name or nickname" autocomplete="off">
     </div>
+    <div class="ai-box" id="ai-box">
+      <label class="ai-toggle">
+        <input type="checkbox" id="ai-opt" onchange="aiToggleChanged()">
+        <span class="ai-switch"></span>
+        <span><span class="ai-title" id="ai-title">&#10024; Let AI write it like a friend would</span><span class="ai-desc" id="ai-desc">Same plan, but written just for you &mdash; in your words, about your situation, with a gentle opening letter.</span></span>
+      </label>
+      <div class="ai-extra">
+        <div class="q-title" style="margin-bottom:8px"><span id="freetext-q">Want to tell it a bit more?</span> <span id="freetext-opt" style="color:var(--muted);font-weight:400">(optional)</span></div>
+        <textarea id="q-freetext" maxlength="600" rows="3"></textarea>
+      </div>
+      <p class="ai-privacy" id="ai-privacy"></p>
+    </div>
     <button class="btn" id="build-btn" onclick="generatePlan()">Build my 30-day plan</button>
     <div class="quiz-msg" id="quiz-msg">Please answer the highlighted questions first.</div>
     <p class="quiz-note" id="quiz-note">Your answers never leave this device. No account, no email, nothing sent anywhere.</p>
@@ -453,6 +491,11 @@
       <button class="btn ghost" id="print-btn" onclick="openPro('print')">&#128424; Print plan</button>
       <button class="btn ghost" id="export-btn" onclick="openPro('export')">&#8595; Export PDF</button>
       <button class="btn ghost" id="retake-btn" onclick="retakeQuiz()">&#8634; Retake quiz</button>
+    </div>
+    <div class="ai-status" id="ai-status"></div>
+    <div class="ai-letter" id="ai-letter" style="display:none">
+      <h3 id="letter-head"></h3>
+      <p id="letter-body"></p>
     </div>
     <div id="plan-days"></div>
     <div class="upsell">
@@ -604,6 +647,15 @@ window.MENDDAYS_LANG['en'] = /*__EN_PACK_START__*/{
     quizMsg: 'Please answer the highlighted questions first.',
     quizNote: 'Your answers never leave this device. No account, no email, nothing sent anywhere.',
     multiHint: 'choose all that apply',
+    aiTitle: '✨ Let AI write it like a friend would',
+    aiDesc: 'Same plan, but written just for you — in your words, about your situation, with a gentle opening letter.',
+    aiPrivacy: 'Honest note: with this ON, your answers (and anything you write above) are sent once to our AI service to write your plan — not stored, not used for anything else. OFF = everything stays 100% on your device.',
+    freeTextQ: 'Want to tell it a bit more?',
+    freeTextOpt: '(optional)',
+    freeTextPh: 'Anything you want the plan to know — what happened, what you miss the most, what tomorrow feels like…',
+    aiLoading: 'Writing your plan like a friend would — give it a few breaths',
+    aiFail: 'The AI helper didn’t answer just now, so here’s your handcrafted plan — still built entirely from your answers. You can try AI again later via “Retake quiz”.',
+    letterHead: 'A letter, before Day 1',
     planTitle: 'Your 30-day plan',
     planTitleName: '{name}, here’s your 30-day plan',
     planSub: 'Built from your answers — one day at a time, four phases: Survive, Feel, Rebuild, Forward. Do today’s card. That’s the whole job.',
@@ -1058,6 +1110,10 @@ var MILESTONES = [3, 7, 14, 30];
 /* multi-select questions; answers stored as arrays (legacy string answers still accepted) */
 var MULTI_KEYS = { struggle: true, goal: true };
 
+/* AI companion: opt-in only; key lives in a Cloudflare Worker, never here */
+var AI_ENDPOINT = 'https://menddays-ai.florianfouine470.workers.dev';
+var AI_KEY = 'menddays_ai';
+
 function hasAnswer(v) {
   if (Object.prototype.toString.call(v) === '[object Array]') return v.length > 0;
   return !!v;
@@ -1218,6 +1274,12 @@ function applyStatic() {
   $('build-btn').textContent = u.buildBtn;
   $('quiz-msg').textContent = u.quizMsg;
   $('quiz-note').textContent = u.quizNote;
+  $('ai-title').textContent = u.aiTitle;
+  $('ai-desc').textContent = u.aiDesc;
+  $('ai-privacy').textContent = u.aiPrivacy;
+  $('freetext-q').textContent = u.freeTextQ;
+  $('freetext-opt').textContent = u.freeTextOpt;
+  $('q-freetext').placeholder = u.freeTextPh;
   $('print-btn').textContent = u.printBtn;
   $('export-btn').textContent = u.exportBtn;
   $('retake-btn').textContent = u.retakeBtn;
@@ -1338,6 +1400,11 @@ function renderQuiz(prefill) {
     host.appendChild(wrap);
   }
   if (prefill && prefill.name !== undefined) $('q-name').value = prefill.name;
+  if (prefill && prefill.ai !== undefined) {
+    $('ai-opt').checked = !!prefill.ai;
+    aiToggleChanged();
+  }
+  if (prefill && prefill.freeText !== undefined && !$('q-freetext').value) $('q-freetext').value = prefill.freeText;
 }
 
 function readQuiz() {
@@ -1361,6 +1428,8 @@ function readQuiz() {
     }
   }
   answers.name = $('q-name').value.trim().slice(0, 20);
+  answers.ai = $('ai-opt').checked;
+  answers.freeText = answers.ai ? $('q-freetext').value.trim().slice(0, 600) : '';
   return { answers: answers, missing: missing };
 }
 
@@ -1375,7 +1444,82 @@ function generatePlan() {
   $('quiz-msg').classList.remove('show');
   saveJSON(QUIZ_KEY, r.answers);
   showPlan(r.answers);
+  if (r.answers.ai && !aiCacheFor(r.answers)) fetchAI(r.answers);
   $('plan-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---------- AI companion ---------- */
+function aiToggleChanged() {
+  var on = $('ai-opt').checked;
+  $('ai-box').classList.toggle('on', on);
+}
+
+function aiSig(a) {
+  return JSON.stringify([a.duration, a.since, a.ender, answerList(a.struggle), answerList(a.goal), a.name || '', a.freeText || '', CUR_LANG]);
+}
+
+/* Returns the cached AI result for these answers in the current language, or null. */
+function aiCacheFor(a) {
+  var c = loadJSON(AI_KEY);
+  if (c && c.sig === aiSig(a) && c.letter && c.days && c.days.length === 7) return c;
+  return null;
+}
+
+function setAIStatus(mode) {
+  var el = $('ai-status');
+  if (mode === 'loading') {
+    el.className = 'ai-status show loading';
+    el.innerHTML = '';
+    var sp = document.createElement('span');
+    sp.textContent = L.ui.aiLoading;
+    var dots = document.createElement('span');
+    dots.className = 'dots';
+    el.appendChild(sp); el.appendChild(dots);
+  } else if (mode === 'fail') {
+    el.className = 'ai-status show';
+    el.textContent = L.ui.aiFail;
+  } else {
+    el.className = 'ai-status';
+    el.textContent = '';
+  }
+}
+
+var AI_PENDING = false;
+function fetchAI(answers) {
+  AI_PENDING = true;
+  setAIStatus('loading');
+  var sig = aiSig(answers);
+  var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 60000);
+  fetch(AI_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      lang: CUR_LANG,
+      answers: {
+        duration: answers.duration, since: answers.since, ender: answers.ender,
+        struggle: answerList(answers.struggle), goal: answerList(answers.goal),
+        name: answers.name || ''
+      },
+      freeText: answers.freeText || ''
+    }),
+    signal: ctrl ? ctrl.signal : undefined
+  }).then(function (resp) {
+    if (!resp.ok) throw new Error('http ' + resp.status);
+    return resp.json();
+  }).then(function (data) {
+    clearTimeout(timer);
+    AI_PENDING = false;
+    if (!data || !data.letter || !data.days || data.days.length !== 7) throw new Error('shape');
+    saveJSON(AI_KEY, { sig: sig, letter: data.letter, days: data.days });
+    setAIStatus('off');
+    var saved = loadJSON(QUIZ_KEY);
+    if (saved && aiSig(saved) === sig) showPlan(saved); /* re-render with the AI week */
+  }).catch(function () {
+    clearTimeout(timer);
+    AI_PENDING = false;
+    setAIStatus('fail');
+  });
 }
 
 function retakeQuiz() {
@@ -1421,6 +1565,24 @@ function dayBody(item) {
 
 function showPlan(answers) {
   var plan = buildPlan(answers, L);
+
+  /* If an AI-written week exists for these exact answers + language, use it */
+  var ai = aiCacheFor(answers);
+  if (ai) {
+    for (var k = 0; k < 7 && k < plan.length; k++) {
+      plan[k].title = ai.days[k].title;
+      plan[k].main = ai.days[k].main;
+      plan[k].small = ai.days[k].small;
+      plan[k].empathy = ai.days[k].empathy;
+    }
+    $('letter-head').textContent = L.ui.letterHead;
+    $('letter-body').textContent = ai.letter;
+    $('ai-letter').style.display = 'block';
+  } else {
+    $('ai-letter').style.display = 'none';
+  }
+  if (!AI_PENDING) setAIStatus('off');
+
   $('quiz-card').classList.add('hidden');
   $('plan-section').classList.remove('hidden');
 
