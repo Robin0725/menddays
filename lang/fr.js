@@ -85,6 +85,52 @@ window.MENDDAYS_LANG['fr'] = {
     termsH3: 'Conditions',
     closeBtn: 'Fermer'
   },
+  chat: {
+    hi1: 'Hé. Ça me fait plaisir que tu sois là.',
+    hi2: 'Pas besoin de raconter toute l’histoire. Laisse-moi te poser quelques petites questions, et je m’occupe de tes 30 prochains jours.',
+    ack: {
+      duration: {
+        lt6m: 'Court ne veut pas dire superficiel. Ça comptait quand même.',
+        '6m2y': 'Assez long pour construire une vie autour de quelqu’un. Je comprends.',
+        '2y5y': 'Plusieurs années… ce n’est pas quelque chose qu’on secoue et qui s’en va.',
+        '5yplus': 'C’est un chapitre entier de ta vie. Bien sûr que ça fait mal.'
+      },
+      since: {
+        week: 'Donc la plaie est encore ouverte. D’accord — cette semaine, on y va tout en douceur.',
+        month: 'Quelques semaines — pile au moment où tout le monde s’attend à ce que tu ailles bien, et ce n’est pas le cas.',
+        '3mo': 'Deux mois, et ça tire encore. C’est normal, je te le promets.',
+        longer: 'Avoir encore mal après tout ce temps ne veut pas dire que quelque chose cloche chez toi. Ça veut dire que ça comptait.'
+      },
+      ender: {
+        them: 'Être la personne qu’on quitte, c’est une douleur à part. Tu n’as pas eu ton mot à dire.',
+        me: 'Être à l’origine de la rupture ne fait pas moins mal — parfois ça fait même plus mal.',
+        mutual: '« D’un commun accord », ça ne se vit jamais aussi proprement que ça sonne.'
+      },
+      struggle: {
+        contact: 'Cette envie d’aller voir ce qu’il ou elle devient, c’est le plus dur. On commence exactement là.',
+        sleep: '3h du matin, c’est l’heure la plus seule au monde. On s’occupe de ça en premier.',
+        guilt: 'Tu rejoues le procès dans ta tête en boucle. On va te trouver un juge plus juste.',
+        anger: 'La colère, ça veut dire que c’était important. On va lui donner un endroit où aller.',
+        empty: 'Ce sentiment de vide, d’engourdissement, est bien réel. On va le remplir doucement.'
+      },
+      goal: {
+        moveon: 'Tourner la page pour de vrai — pas faire semblant. C’est le bon objectif.',
+        rebuild: 'Te retrouver. J’aime que tu l’aies dit comme ça.',
+        nosocial: 'Cette habitude d’aller vérifier rouvre la plaie à chaque fois. On va la refermer en douceur.'
+      },
+      nameGiven: 'D’accord, {name}. Je suis là, avec toi.',
+      nameSkipped: 'Pas de souci. Pas besoin de prénom.'
+    },
+    multiDone: 'C’est tout',
+    send: 'Envoyer',
+    nameSkip: 'Je préfère ne pas dire',
+    aiAsk: 'Une dernière chose. Tu veux que j’envoie tes réponses — une seule fois, jamais conservées — à notre IA, pour que ta lettre et ta première semaine soient écrites pour toi plutôt que sorties d’un modèle ?',
+    aiYes: 'Oui, écris-la pour moi',
+    aiNo: 'Non merci — tout reste sur mon appareil',
+    freeAsk: 'Je t’écoute. Qu’est-ce qui s’est passé ? Tout ce que tu me confies ira dans ta lettre.',
+    freeSkip: 'Rien à ajouter',
+    writing: 'D’accord. Donne-moi un instant — j’écris ce que j’ai envie de te dire…'
+  },
   questions: [
     { key: 'duration', q: 'Combien de temps a duré la relation ?', opts: [
       ['lt6m', 'Moins de 6 mois'],

@@ -100,17 +100,41 @@
   }
   .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; }
 
-  /* ---------- quiz ---------- */
-  .q { margin-bottom: 20px; }
-  .q-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-  .q-title .qnum { color: var(--accent); margin-inline-end: 6px; }
-  .q-title .multi-hint { font-size: 12px; font-weight: 400; color: var(--muted); margin-inline-start: 8px; white-space: nowrap; }
-  .q.missing .q-title { color: var(--danger); }
-  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
-  .opt { position: relative; }
-  .opt input { position: absolute; opacity: 0; pointer-events: none; }
-  .opt label {
-    display: block;
+  /* ---------- chat quiz ---------- */
+  #chat-log { display: flex; flex-direction: column; gap: 10px; padding: 2px 0 14px; }
+  .chat-bubble {
+    max-width: 86%;
+    padding: 10px 14px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    border-radius: 16px;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+  }
+  .chat-bot {
+    align-self: flex-start;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    border-start-start-radius: 5px;
+  }
+  .chat-user {
+    align-self: flex-end;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    color: var(--accent);
+    font-weight: 600;
+    border-start-end-radius: 5px;
+  }
+  .chat-bubble.chat-fine { font-size: 12px; color: var(--muted); line-height: 1.6; max-width: 94%; font-weight: 400; }
+  .chat-typing { display: flex; align-items: center; gap: 5px; padding-top: 16px; padding-bottom: 16px; }
+  .chat-typing .t-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: tdot 1s ease-in-out infinite; }
+  .chat-typing .t-dot:nth-child(2) { animation-delay: .18s; }
+  .chat-typing .t-dot:nth-child(3) { animation-delay: .36s; }
+  @keyframes tdot { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  #chat-dock { margin-top: 4px; }
+  .chat-hint { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+  .chat-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chat-pill {
     background: var(--panel2);
     border: 1px solid var(--border);
     color: var(--text);
@@ -120,17 +144,22 @@
     line-height: 1.35;
     cursor: pointer;
     user-select: none;
+    font-family: inherit;
+    text-align: start;
   }
-  .opt label:hover { border-color: var(--accent-line); }
-  .opt input:checked + label {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent);
-    font-weight: 600;
+  .chat-pill:hover { border-color: var(--accent-line); }
+  .chat-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chat-pill.sel { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .chat-pill.confirm {
+    background: linear-gradient(92deg, var(--accent), var(--accent-deep));
+    border-color: var(--accent-deep);
+    color: #2b1206;
+    font-weight: 800;
   }
-  .opt input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .name-field input {
-    width: 100%;
+  .chat-input-row { display: flex; gap: 8px; }
+  .chat-input-row input {
+    flex: 1 1 auto;
+    min-width: 0;
     background: var(--panel2);
     border: 1px solid var(--border);
     color: var(--text);
@@ -139,7 +168,35 @@
     font-size: 15px;
     font-family: inherit;
   }
-  .name-field input:focus { outline: none; border-color: var(--accent); }
+  .chat-input-row input:focus { outline: none; border-color: var(--accent); }
+  .chat-send {
+    flex: 0 0 auto;
+    background: linear-gradient(92deg, var(--accent), var(--accent-deep));
+    color: #2b1206;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .chat-send:hover { opacity: .9; }
+  #chat-dock textarea {
+    width: 100%;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 72px;
+  }
+  #chat-dock textarea:focus { outline: none; border-color: var(--accent); }
+  .chat-skip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
   .btn {
     display: block;
     width: 100%;
@@ -155,25 +212,6 @@
   }
   .btn:hover { opacity: .9; }
   .btn.ghost { background: transparent; border: 1px solid var(--accent-line); color: var(--accent); font-weight: 700; }
-  .quiz-msg { display: none; color: var(--danger); font-size: 13px; margin-top: 10px; text-align: center; }
-  .quiz-msg.show { display: block; }
-  /* ---------- AI companion opt-in ---------- */
-  .ai-box { background: var(--panel2); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 20px; }
-  .ai-toggle { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
-  .ai-toggle input { position: absolute; opacity: 0; pointer-events: none; }
-  .ai-switch { flex: 0 0 auto; width: 40px; height: 22px; border-radius: 99px; background: var(--border); position: relative; transition: background .2s; margin-top: 2px; }
-  .ai-switch::after { content: ''; position: absolute; top: 3px; inset-inline-start: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--text); transition: transform .2s; }
-  .ai-toggle input:checked + .ai-switch { background: var(--accent); }
-  .ai-toggle input:checked + .ai-switch::after { transform: translateX(18px); }
-  [dir="rtl"] .ai-toggle input:checked + .ai-switch::after { transform: translateX(-18px); }
-  .ai-toggle input:focus-visible + .ai-switch { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .ai-title { font-weight: 700; font-size: 15px; }
-  .ai-desc { color: var(--muted); font-size: 13px; line-height: 1.55; display: block; margin-top: 3px; }
-  .ai-privacy { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px; }
-  .ai-extra { display: none; margin-top: 12px; }
-  .ai-box.on .ai-extra { display: block; }
-  .ai-extra textarea { width: 100%; background: var(--panel); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 10px 12px; font-size: 14px; font-family: inherit; line-height: 1.5; resize: vertical; min-height: 72px; }
-  .ai-extra textarea:focus { outline: none; border-color: var(--accent); }
   /* ---------- AI letter + status ---------- */
   .ai-letter { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 14px; padding: 18px; margin-bottom: 22px; }
   .ai-letter h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 10px; }
@@ -458,25 +496,8 @@
   <!-- ============ QUIZ ============ -->
   <div class="card" id="quiz-card">
     <h2 id="quiz-h2">Your situation &mdash; 6 quick questions</h2>
-    <div id="quiz-questions"></div>
-    <div class="q name-field">
-      <div class="q-title"><span class="qnum">6.</span><span id="name-q">What should the plan call you?</span> <span id="name-opt" style="color:var(--muted);font-weight:400">(optional)</span></div>
-      <input type="text" id="q-name" maxlength="20" placeholder="A name or nickname" autocomplete="off">
-    </div>
-    <div class="ai-box" id="ai-box">
-      <label class="ai-toggle">
-        <input type="checkbox" id="ai-opt" onchange="aiToggleChanged()">
-        <span class="ai-switch"></span>
-        <span><span class="ai-title" id="ai-title">&#10024; Let AI write it like a friend would</span><span class="ai-desc" id="ai-desc">Same plan, but written just for you &mdash; in your words, about your situation, with a gentle opening letter.</span></span>
-      </label>
-      <div class="ai-extra">
-        <div class="q-title" style="margin-bottom:8px"><span id="freetext-q">Want to tell it a bit more?</span> <span id="freetext-opt" style="color:var(--muted);font-weight:400">(optional)</span></div>
-        <textarea id="q-freetext" maxlength="600" rows="3"></textarea>
-      </div>
-      <p class="ai-privacy" id="ai-privacy"></p>
-    </div>
-    <button class="btn" id="build-btn" onclick="generatePlan()">Build my 30-day plan</button>
-    <div class="quiz-msg" id="quiz-msg">Please answer the highlighted questions first.</div>
+    <div id="chat-log" aria-live="polite"></div>
+    <div id="chat-dock"></div>
     <p class="quiz-note" id="quiz-note">Your answers never leave this device. No account, no email, nothing sent anywhere.</p>
   </div>
 
@@ -718,6 +739,52 @@ window.MENDDAYS_LANG['en'] = /*__EN_PACK_START__*/{
     privacyH3: 'Privacy',
     termsH3: 'Terms',
     closeBtn: 'Close'
+  },
+  chat: {
+    hi1: 'Hey. I’m glad you’re here.',
+    hi2: 'You don’t have to tell the whole story. Let me ask a few small things, and then I’ll put together your next 30 days.',
+    ack: {
+      duration: {
+        lt6m: 'Short doesn’t mean shallow. It still counted.',
+        '6m2y': 'Long enough to build a life around someone. I get it.',
+        '2y5y': 'A few years… that’s not something you just shake off.',
+        '5yplus': 'That’s a whole chapter of your life. Of course this hurts.'
+      },
+      since: {
+        week: 'So it’s still bleeding. Okay — we go extra gentle this week.',
+        month: 'A few weeks in — right when everyone expects you to be fine, and you’re not.',
+        '3mo': 'A couple of months out, and it still pulls. That’s normal, I promise.',
+        longer: 'Still hurting after this long doesn’t mean you’re broken. It means it mattered.'
+      },
+      ender: {
+        them: 'Being the one left behind is its own kind of pain. You didn’t get a vote.',
+        me: 'Ending it yourself doesn’t make it hurt less — sometimes it hurts more.',
+        mutual: '“Mutual” never feels as clean as the word sounds.'
+      },
+      struggle: {
+        contact: 'That pull to check on them is the hardest part. We’ll start right there.',
+        sleep: '3am is the loneliest hour. We’ll work on that first.',
+        guilt: 'You’ve been running the trial in your head on repeat. We’ll get you a fairer judge.',
+        anger: 'Anger means it mattered. We’ll give it somewhere to go.',
+        empty: 'That numb, hollowed-out feeling is real. We’ll refill slowly.'
+      },
+      goal: {
+        moveon: 'Genuinely moving on — not pretending. That’s the right goal.',
+        rebuild: 'Getting yourself back. I like that you said it that way.',
+        nosocial: 'That checking habit reopens the wound every time. We’ll close it gently.'
+      },
+      nameGiven: 'Okay, {name}. I’m with you.',
+      nameSkipped: 'That’s okay. No name needed.'
+    },
+    multiDone: 'That’s all of it',
+    send: 'Send',
+    nameSkip: 'I’d rather not say',
+    aiAsk: 'One last thing. Want me to send your answers — just once, never stored — to our AI, so your letter and first week are written for you instead of from a template?',
+    aiYes: 'Yes, write it for me',
+    aiNo: 'No thanks — keep everything on my device',
+    freeAsk: 'I’m listening. What happened? Anything you tell me goes into your letter.',
+    freeSkip: 'Nothing to add',
+    writing: 'Okay. Give me a moment — I’m writing down what I want to say to you…'
   },
   questions: [
     { key: 'duration', q: 'How long were you together?', opts: [
@@ -1203,36 +1270,11 @@ function setLang(code, fromUser) {
   document.head.appendChild(s);
 }
 
-/* Read whatever is currently selected in the quiz DOM (no validation). */
-function readQuizLoose() {
-  var out = {};
-  var qs = L.questions;
-  for (var i = 0; i < qs.length; i++) {
-    var key = qs[i].key;
-    if (MULTI_KEYS[key]) {
-      var all = document.querySelectorAll('input[name="' + key + '"]:checked');
-      if (all.length) {
-        var vals = [];
-        for (var j = 0; j < all.length; j++) vals.push(all[j].value);
-        out[key] = vals;
-      }
-    } else {
-      var checked = document.querySelector('input[name="' + key + '"]:checked');
-      if (checked) out[key] = checked.value;
-    }
-  }
-  var nameEl = $('q-name');
-  if (nameEl && nameEl.value) out.name = nameEl.value;
-  return out;
-}
-
 function quizComplete(a) {
   return !!(a && hasAnswer(a.duration) && hasAnswer(a.since) && hasAnswer(a.ender) && hasAnswer(a.struggle) && hasAnswer(a.goal));
 }
 
 function applyLang(code) {
-  /* preserve in-progress quiz selections across the re-render */
-  var inProgress = BOOTED ? readQuizLoose() : null;
   var quizWasVisible = !$('quiz-card').classList.contains('hidden');
   var planWasVisible = !$('plan-section').classList.contains('hidden');
 
@@ -1246,15 +1288,21 @@ function applyLang(code) {
   applyStatic();
 
   var saved = loadJSON(QUIZ_KEY);
-  renderQuiz(inProgress && (inProgress.duration || inProgress.since || inProgress.ender || inProgress.struggle || inProgress.goal || inProgress.name) ? inProgress : saved);
 
   if (!BOOTED) {
     if (quizComplete(saved)) showPlan(saved); /* original first-load behavior */
+    else startChat();
   } else {
     if (planWasVisible && quizComplete(saved)) showPlan(saved);
-    /* showPlan hides the quiz; restore it if the user was mid-retake */
-    if (quizWasVisible) $('quiz-card').classList.remove('hidden');
-    else $('quiz-card').classList.add('hidden');
+    /* showPlan hides the quiz; restore it if the user was mid-conversation.
+       In-chat progress doesn't survive a language switch — the conversation
+       simply restarts in the new language. */
+    if (quizWasVisible) {
+      $('quiz-card').classList.remove('hidden');
+      startChat();
+    } else {
+      $('quiz-card').classList.add('hidden');
+    }
     if (!planWasVisible) $('plan-section').classList.add('hidden');
   }
 
@@ -1268,18 +1316,7 @@ function applyStatic() {
   $('hero-h1').innerHTML = u.heroH1;
   $('hero-p').innerHTML = u.heroP;
   $('quiz-h2').textContent = u.quizH2;
-  $('name-q').textContent = u.nameQ;
-  $('name-opt').textContent = u.nameOptional;
-  $('q-name').placeholder = u.namePlaceholder;
-  $('build-btn').textContent = u.buildBtn;
-  $('quiz-msg').textContent = u.quizMsg;
   $('quiz-note').textContent = u.quizNote;
-  $('ai-title').textContent = u.aiTitle;
-  $('ai-desc').textContent = u.aiDesc;
-  $('ai-privacy').textContent = u.aiPrivacy;
-  $('freetext-q').textContent = u.freeTextQ;
-  $('freetext-opt').textContent = u.freeTextOpt;
-  $('q-freetext').placeholder = u.freeTextPh;
   $('print-btn').textContent = u.printBtn;
   $('export-btn').textContent = u.exportBtn;
   $('retake-btn').textContent = u.retakeBtn;
@@ -1350,110 +1387,287 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-/* ---------- quiz render ---------- */
-function renderQuiz(prefill) {
-  var host = $('quiz-questions');
-  host.innerHTML = '';
-  var QUESTIONS = L.questions;
-  for (var i = 0; i < QUESTIONS.length; i++) {
-    var q = QUESTIONS[i];
-    var wrap = document.createElement('div');
-    wrap.className = 'q';
-    wrap.id = 'q-' + q.key;
-    var title = document.createElement('div');
-    title.className = 'q-title';
-    var num = document.createElement('span');
-    num.className = 'qnum';
-    num.textContent = (i + 1) + '.';
-    title.appendChild(num);
-    title.appendChild(document.createTextNode(q.q));
-    if (MULTI_KEYS[q.key] && L.ui.multiHint) {
-      var hint = document.createElement('span');
-      hint.className = 'multi-hint';
-      hint.textContent = '· ' + L.ui.multiHint;
-      title.appendChild(hint);
-    }
-    wrap.appendChild(title);
-    var opts = document.createElement('div');
-    opts.className = 'opts';
-    for (var j = 0; j < q.opts.length; j++) {
-      var o = q.opts[j];
-      var holder = document.createElement('span');
-      holder.className = 'opt';
-      var input = document.createElement('input');
-      input.type = MULTI_KEYS[q.key] ? 'checkbox' : 'radio';
-      input.name = q.key;
-      input.value = o[0];
-      input.id = 'opt-' + q.key + '-' + o[0];
-      if (prefill && answerList(prefill[q.key]).indexOf(o[0]) !== -1) input.checked = true;
-      input.addEventListener('change', (function (w) {
-        return function () { w.classList.remove('missing'); };
-      })(wrap));
-      var label = document.createElement('label');
-      label.htmlFor = input.id;
-      label.textContent = o[1];
-      holder.appendChild(input);
-      holder.appendChild(label);
-      opts.appendChild(holder);
-    }
-    wrap.appendChild(opts);
-    host.appendChild(wrap);
-  }
-  if (prefill && prefill.name !== undefined) $('q-name').value = prefill.name;
-  if (prefill && prefill.ai !== undefined) {
-    $('ai-opt').checked = !!prefill.ai;
-    aiToggleChanged();
-  }
-  if (prefill && prefill.freeText !== undefined && !$('q-freetext').value) $('q-freetext').value = prefill.freeText;
+/* ---------- chat quiz ---------- */
+var chatToken = 0; /* bumped on every restart; stale timers check it */
+var chatAnswers = {};
+var botQueue = [];
+var botBusy = false;
+
+/* Fallback so a stale cached pack without chat keys can't crash the page. */
+function chatPack() {
+  return L.chat || window.MENDDAYS_LANG['en'].chat;
 }
 
-function readQuiz() {
-  var answers = {};
-  var missing = [];
-  var QUESTIONS = L.questions;
-  for (var i = 0; i < QUESTIONS.length; i++) {
-    var q = QUESTIONS[i];
-    $('q-' + q.key).classList.remove('missing');
-    if (MULTI_KEYS[q.key]) {
-      var all = document.querySelectorAll('input[name="' + q.key + '"]:checked');
-      if (all.length) {
-        var vals = [];
-        for (var j = 0; j < all.length; j++) vals.push(all[j].value);
-        answers[q.key] = vals;
-      } else missing.push(q.key);
-    } else {
-      var checked = document.querySelector('input[name="' + q.key + '"]:checked');
-      if (checked) answers[q.key] = checked.value;
-      else missing.push(q.key);
-    }
-  }
-  answers.name = $('q-name').value.trim().slice(0, 20);
-  answers.ai = $('ai-opt').checked;
-  answers.freeText = answers.ai ? $('q-freetext').value.trim().slice(0, 600) : '';
-  return { answers: answers, missing: missing };
+function chatScroll(el) {
+  if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function generatePlan() {
-  var r = readQuiz();
-  if (r.missing.length) {
-    for (var i = 0; i < r.missing.length; i++) $('q-' + r.missing[i]).classList.add('missing');
-    $('quiz-msg').classList.add('show');
-    $('q-' + r.missing[0]).scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
+function userBubble(text) {
+  var b = document.createElement('div');
+  b.className = 'chat-bubble chat-user';
+  b.textContent = text;
+  $('chat-log').appendChild(b);
+  chatScroll(b);
+}
+
+/* Queue a bot message: typing dots first, then the text, then cb(). */
+function botSay(text, cb, fine) {
+  botQueue.push({ text: String(text || ''), cb: cb || null, fine: !!fine });
+  if (!botBusy) botNext();
+}
+
+function botNext() {
+  if (!botQueue.length) { botBusy = false; return; }
+  botBusy = true;
+  var item = botQueue.shift();
+  var token = chatToken;
+  var b = document.createElement('div');
+  b.className = 'chat-bubble chat-bot chat-typing';
+  for (var i = 0; i < 3; i++) {
+    var d = document.createElement('span');
+    d.className = 't-dot';
+    b.appendChild(d);
   }
-  $('quiz-msg').classList.remove('show');
-  saveJSON(QUIZ_KEY, r.answers);
-  showPlan(r.answers);
-  if (r.answers.ai && !aiCacheFor(r.answers)) fetchAI(r.answers);
-  $('plan-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  $('chat-log').appendChild(b);
+  chatScroll(b);
+  var ms = Math.max(550, Math.min(1600, item.text.length * 28));
+  setTimeout(function () {
+    if (token !== chatToken) return; /* conversation was restarted */
+    b.className = 'chat-bubble chat-bot' + (item.fine ? ' chat-fine' : '');
+    while (b.firstChild) b.removeChild(b.firstChild);
+    b.textContent = item.text;
+    chatScroll(b);
+    if (item.cb) item.cb();
+    botNext();
+  }, ms);
+}
+
+function clearDock() {
+  $('chat-dock').innerHTML = '';
+}
+
+function makePill(label, onTap, cls) {
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'chat-pill' + (cls ? ' ' + cls : '');
+  btn.textContent = label;
+  btn.addEventListener('click', onTap);
+  return btn;
+}
+
+function startChat() {
+  chatToken++;
+  botQueue = [];
+  botBusy = false;
+  chatAnswers = {};
+  $('chat-log').innerHTML = '';
+  clearDock();
+  var C = chatPack();
+  botSay(C.hi1);
+  botSay(C.hi2, function () { chatAsk(0); });
+}
+
+function chatAck(key, code) {
+  var C = chatPack();
+  return (C.ack && C.ack[key] && C.ack[key][code]) || '';
+}
+
+function chatAsk(i) {
+  var qs = L.questions;
+  if (i >= qs.length) { chatAskName(); return; }
+  var q = qs[i];
+  botSay(q.q, function () {
+    if (MULTI_KEYS[q.key]) chatMultiDock(q, i);
+    else chatSingleDock(q, i);
+  });
+}
+
+function chatSingleDock(q, i) {
+  var dock = $('chat-dock');
+  dock.innerHTML = '';
+  var row = document.createElement('div');
+  row.className = 'chat-pills';
+  for (var j = 0; j < q.opts.length; j++) {
+    (function (code, label) {
+      row.appendChild(makePill(label, function () {
+        clearDock();
+        userBubble(label);
+        chatAnswers[q.key] = code;
+        var ack = chatAck(q.key, code);
+        if (ack) botSay(ack);
+        chatAsk(i + 1);
+      }));
+    })(q.opts[j][0], q.opts[j][1]);
+  }
+  dock.appendChild(row);
+}
+
+function chatMultiDock(q, i) {
+  var dock = $('chat-dock');
+  dock.innerHTML = '';
+  var C = chatPack();
+  if (L.ui.multiHint) {
+    var hint = document.createElement('div');
+    hint.className = 'chat-hint';
+    hint.textContent = '· ' + L.ui.multiHint;
+    dock.appendChild(hint);
+  }
+  var row = document.createElement('div');
+  row.className = 'chat-pills';
+  var picked = [];   /* codes, in tap order */
+  var labels = {};   /* code -> label */
+  var confirmBtn = null;
+  function onConfirm() {
+    var names = [];
+    for (var k = 0; k < picked.length; k++) names.push(labels[picked[k]]);
+    clearDock();
+    userBubble(names.join(', '));
+    chatAnswers[q.key] = picked.slice();
+    var ack = chatAck(q.key, picked[0]);
+    if (ack) botSay(ack);
+    chatAsk(i + 1);
+  }
+  function refreshConfirm() {
+    if (picked.length && !confirmBtn) {
+      confirmBtn = makePill(C.multiDone, onConfirm, 'confirm');
+      row.appendChild(confirmBtn);
+    } else if (!picked.length && confirmBtn) {
+      row.removeChild(confirmBtn);
+      confirmBtn = null;
+    }
+  }
+  for (var j = 0; j < q.opts.length; j++) {
+    (function (code, label) {
+      labels[code] = label;
+      var pill = makePill(label, function () {
+        var at = picked.indexOf(code);
+        if (at > -1) { picked.splice(at, 1); pill.className = 'chat-pill'; }
+        else { picked.push(code); pill.className = 'chat-pill sel'; }
+        refreshConfirm();
+      });
+      row.appendChild(pill);
+    })(q.opts[j][0], q.opts[j][1]);
+  }
+  dock.appendChild(row);
+}
+
+function chatAskName() {
+  var C = chatPack();
+  botSay(L.ui.nameQ, function () {
+    var dock = $('chat-dock');
+    dock.innerHTML = '';
+    var row = document.createElement('div');
+    row.className = 'chat-input-row';
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.maxLength = 20;
+    input.autocomplete = 'off';
+    input.placeholder = L.ui.namePlaceholder || '';
+    var send = document.createElement('button');
+    send.type = 'button';
+    send.className = 'chat-send';
+    send.textContent = C.send;
+    function submit() {
+      var name = input.value.trim().slice(0, 20);
+      clearDock();
+      chatAnswers.name = name;
+      if (name) {
+        userBubble(name);
+        botSay(fmt(C.ack.nameGiven, { name: name }));
+      } else {
+        userBubble(C.nameSkip);
+        botSay(C.ack.nameSkipped);
+      }
+      chatAskAI();
+    }
+    send.addEventListener('click', submit);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); submit(); }
+    });
+    row.appendChild(input);
+    row.appendChild(send);
+    dock.appendChild(row);
+    var skipRow = document.createElement('div');
+    skipRow.className = 'chat-skip-row';
+    skipRow.appendChild(makePill(C.nameSkip, function () {
+      input.value = '';
+      submit();
+    }));
+    dock.appendChild(skipRow);
+  });
+}
+
+function chatAskAI() {
+  var C = chatPack();
+  botSay(C.aiAsk);
+  botSay(L.ui.aiPrivacy, function () {
+    var dock = $('chat-dock');
+    dock.innerHTML = '';
+    var row = document.createElement('div');
+    row.className = 'chat-pills';
+    row.appendChild(makePill(C.aiYes, function () {
+      clearDock();
+      userBubble(C.aiYes);
+      chatAnswers.ai = true;
+      chatAskFree();
+    }));
+    row.appendChild(makePill(C.aiNo, function () {
+      clearDock();
+      userBubble(C.aiNo);
+      chatAnswers.ai = false;
+      chatAnswers.freeText = '';
+      chatFinish();
+    }));
+    dock.appendChild(row);
+  }, true);
+}
+
+function chatAskFree() {
+  var C = chatPack();
+  botSay(C.freeAsk, function () {
+    var dock = $('chat-dock');
+    dock.innerHTML = '';
+    var ta = document.createElement('textarea');
+    ta.maxLength = 600;
+    ta.rows = 3;
+    ta.placeholder = L.ui.freeTextPh || '';
+    dock.appendChild(ta);
+    var row = document.createElement('div');
+    row.className = 'chat-skip-row';
+    var send = document.createElement('button');
+    send.type = 'button';
+    send.className = 'chat-send';
+    send.textContent = C.send;
+    function submit(skip) {
+      var txt = skip ? '' : ta.value.trim().slice(0, 600);
+      clearDock();
+      chatAnswers.freeText = txt;
+      userBubble(txt ? txt : C.freeSkip);
+      chatFinish();
+    }
+    send.addEventListener('click', function () { submit(false); });
+    row.appendChild(send);
+    row.appendChild(makePill(C.freeSkip, function () { submit(true); }));
+    dock.appendChild(row);
+  });
+}
+
+function chatFinish() {
+  var C = chatPack();
+  var answers = chatAnswers;
+  var token = chatToken;
+  botSay(C.writing, function () {
+    setTimeout(function () {
+      if (token !== chatToken) return;
+      saveJSON(QUIZ_KEY, answers);
+      showPlan(answers);
+      if (answers.ai && !aiCacheFor(answers)) fetchAI(answers);
+      $('plan-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 700);
+  });
 }
 
 /* ---------- AI companion ---------- */
-function aiToggleChanged() {
-  var on = $('ai-opt').checked;
-  $('ai-box').classList.toggle('on', on);
-}
-
 function aiSig(a) {
   return JSON.stringify([a.duration, a.since, a.ender, answerList(a.struggle), answerList(a.goal), a.name || '', a.freeText || '', CUR_LANG]);
 }
@@ -1523,9 +1737,9 @@ function fetchAI(answers) {
 }
 
 function retakeQuiz() {
-  var saved = loadJSON(QUIZ_KEY);
-  renderQuiz(saved);
+  /* saved answers stay in localStorage until the new conversation finishes */
   $('quiz-card').classList.remove('hidden');
+  startChat();
   $('quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 

@@ -85,6 +85,52 @@ window.MENDDAYS_LANG['vi'] = {
     termsH3: 'Điều khoản',
     closeBtn: 'Đóng'
   },
+  chat: {
+    hi1: 'Chào bạn. Mình rất vui vì bạn ở đây.',
+    hi2: 'Bạn không cần kể hết cả câu chuyện đâu. Để mình hỏi vài điều nhỏ thôi, rồi mình sẽ sắp xếp 30 ngày tới cho bạn.',
+    ack: {
+      duration: {
+        lt6m: 'Ngắn không có nghĩa là hời hợt. Nó vẫn là thật.',
+        '6m2y': 'Đủ lâu để xây cả một cuộc sống quanh một người. Mình hiểu mà.',
+        '2y5y': 'Mấy năm trời… đâu phải thứ rũ một cái là xong.',
+        '5yplus': 'Đó là cả một chương trong cuộc đời bạn. Đau là phải rồi.'
+      },
+      since: {
+        week: 'Vậy là vết thương còn đang rỉ máu. Được — tuần này mình đi thật chậm, thật nhẹ nhé.',
+        month: 'Vài tuần rồi — đúng lúc ai cũng nghĩ bạn ổn rồi, mà bạn thì chưa.',
+        '3mo': 'Một hai tháng rồi mà vẫn nhói. Bình thường mà, mình hứa.',
+        longer: 'Lâu vậy rồi mà vẫn đau không có nghĩa là bạn hỏng hóc gì. Nghĩa là chuyện đó từng rất quan trọng.'
+      },
+      ender: {
+        them: 'Là người bị bỏ lại là một nỗi đau rất riêng. Bạn còn chẳng được lên tiếng.',
+        me: 'Tự mình kết thúc không có nghĩa là đỡ đau hơn — đôi khi còn đau hơn.',
+        mutual: '“Cả hai cùng quyết định” chẳng bao giờ nhẹ nhàng như mấy chữ đó nghe.'
+      },
+      struggle: {
+        contact: 'Cái thôi thúc muốn xem người ấy thế nào là phần khó nhất. Mình sẽ bắt đầu đúng từ đó.',
+        sleep: '3 giờ sáng là giờ cô đơn nhất. Mình lo chuyện đó trước nhé.',
+        guilt: 'Bạn cứ mở lại phiên tòa trong đầu hết lần này đến lần khác. Mình sẽ tìm cho bạn một vị quan tòa công bằng hơn.',
+        anger: 'Giận nghĩa là chuyện đó từng quan trọng. Mình sẽ tìm chỗ cho cơn giận ấy đi.',
+        empty: 'Cảm giác trống rỗng, tê dại đó là thật. Mình sẽ lấp lại từ từ.'
+      },
+      goal: {
+        moveon: 'Thật sự bước tiếp — không phải giả vờ. Mục tiêu đúng đấy.',
+        rebuild: 'Tìm lại chính mình. Mình thích cách bạn nói điều đó.',
+        nosocial: 'Thói quen vào xem ấy mỗi lần đều xé vết thương ra lại. Mình sẽ khép nó lại thật nhẹ.'
+      },
+      nameGiven: 'Được rồi, {name}. Mình ở đây với bạn.',
+      nameSkipped: 'Không sao. Không cần tên đâu.'
+    },
+    multiDone: 'Hết rồi',
+    send: 'Gửi',
+    nameSkip: 'Tôi không muốn nói',
+    aiAsk: 'Một điều cuối nhé. Bạn có muốn mình gửi câu trả lời của bạn — chỉ một lần, không bao giờ lưu lại — đến AI của bọn mình, để lá thư và tuần đầu tiên được viết riêng cho bạn thay vì lấy từ khuôn mẫu không?',
+    aiYes: 'Có, viết cho tôi nhé',
+    aiNo: 'Thôi — giữ mọi thứ trên máy tôi',
+    freeAsk: 'Mình đang nghe đây. Chuyện gì đã xảy ra vậy? Những gì bạn kể sẽ được đưa vào lá thư của bạn.',
+    freeSkip: 'Không có gì thêm',
+    writing: 'Được rồi. Cho mình một chút — mình đang viết những điều muốn nói với bạn…'
+  },
   questions: [
     { key: 'duration', q: 'Hai bạn đã bên nhau bao lâu?', opts: [
       ['lt6m', 'Dưới 6 tháng'],

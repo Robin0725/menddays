@@ -85,6 +85,52 @@ window.MENDDAYS_LANG['tr'] = {
     termsH3: 'Koşullar',
     closeBtn: 'Kapat'
   },
+  chat: {
+    hi1: 'Selam. Burada olmana sevindim.',
+    hi2: 'Bütün hikâyeyi anlatmak zorunda değilsin. Birkaç küçük şey sorayım, sonra önündeki 30 günü senin için hazırlayayım.',
+    ack: {
+      duration: {
+        lt6m: 'Kısa olması yüzeysel olduğu anlamına gelmez. Yine de sayılır.',
+        '6m2y': 'Birinin etrafında hayat kurmaya yetecek kadar uzun. Anlıyorum.',
+        '2y5y': 'Birkaç yıl… öyle silkelenip atılacak bir şey değil bu.',
+        '5yplus': 'Hayatının koca bir bölümü. Tabii ki acıtıyor.'
+      },
+      since: {
+        week: 'Demek yara hâlâ taze. Tamam — bu hafta fazladan nazik gidiyoruz.',
+        month: 'Birkaç hafta olmuş — tam da herkesin senden iyi olmanı beklediği, ama olmadığın zaman.',
+        '3mo': 'Birkaç ay geçmiş ve hâlâ çekiyor. Bu normal, söz veriyorum.',
+        longer: 'Bunca zaman sonra hâlâ acıması bozuk olduğun anlamına gelmez. Önemli olduğu anlamına gelir.'
+      },
+      ender: {
+        them: 'Geride bırakılan olmak başlı başına bir acı. Sana sormadılar bile.',
+        me: 'Bitiren sen olunca daha az acımıyor — bazen daha çok acıyor.',
+        mutual: '“Karşılıklıydı” hiçbir zaman kulağa geldiği kadar temiz hissettirmez.'
+      },
+      struggle: {
+        contact: 'O “bir bakayım nasıl” dürtüsü en zor kısım. Tam oradan başlıyoruz.',
+        sleep: 'Gece 3, saatlerin en yalnızı. Önce onu hallediyoruz.',
+        guilt: 'Kafanda aynı davayı tekrar tekrar görüyorsun. Sana daha adil bir hâkim bulacağız.',
+        anger: 'Öfke, önemli olduğunu gösterir. Ona gidecek bir yer bulacağız.',
+        empty: 'O hissizlik, içinin oyulmuş gibi olması gerçek. Yavaş yavaş yeniden dolduracağız.'
+      },
+      goal: {
+        moveon: 'Gerçekten geride bırakmak — rol yapmak değil. Doğru hedef bu.',
+        rebuild: 'Kendini geri kazanmak. Böyle söylemen hoşuma gitti.',
+        nosocial: 'O bakma alışkanlığı yarayı her seferinde yeniden açıyor. Onu nazikçe kapatacağız.'
+      },
+      nameGiven: 'Tamam, {name}. Yanındayım.',
+      nameSkipped: 'Sorun değil. İsme gerek yok.'
+    },
+    multiDone: 'Hepsi bu',
+    send: 'Gönder',
+    nameSkip: 'Söylemesem daha iyi',
+    aiAsk: 'Son bir şey. Cevaplarını — yalnızca bir kez, asla saklanmadan — yapay zekâmıza göndereyim mi? Böylece mektubun ve ilk haftan bir şablondan değil, senin için yazılmış olur.',
+    aiYes: 'Evet, benim için yaz',
+    aiNo: 'Hayır — her şey cihazımda kalsın',
+    freeAsk: 'Dinliyorum. Ne oldu? Bana anlattığın her şey mektubuna girecek.',
+    freeSkip: 'Eklenecek bir şey yok',
+    writing: 'Tamam. Bana biraz zaman ver — sana söylemek istediklerimi yazıyorum…'
+  },
   questions: [
     { key: 'duration', q: 'Ne kadar süre birlikteydiniz?', opts: [
       ['lt6m', '6 aydan az'],

@@ -85,6 +85,52 @@ window.MENDDAYS_LANG['es'] = {
     termsH3: 'Términos',
     closeBtn: 'Cerrar'
   },
+  chat: {
+    hi1: 'Hola. Me alegra que estés aquí.',
+    hi2: 'No hace falta que cuentes toda la historia. Déjame hacerte unas preguntas pequeñas y luego armo tus próximos 30 días.',
+    ack: {
+      duration: {
+        lt6m: 'Corto no significa superficial. Contó igual.',
+        '6m2y': 'Tiempo de sobra para construir una vida alrededor de alguien. Lo entiendo.',
+        '2y5y': 'Varios años… eso no se sacude de encima sin más.',
+        '5yplus': 'Es un capítulo entero de tu vida. Claro que duele.'
+      },
+      since: {
+        week: 'Así que la herida sigue abierta. Bien — esta semana iremos con cuidado extra.',
+        month: 'Unas semanas — justo cuando todos esperan que estés bien, y no lo estás.',
+        '3mo': 'Un par de meses, y todavía tira. Es normal, te lo prometo.',
+        longer: 'Que aún duela después de tanto tiempo no significa que haya algo roto en ti. Significa que importó.'
+      },
+      ender: {
+        them: 'Ser quien se queda atrás es un dolor aparte. No te dieron ni voz ni voto.',
+        me: 'Que lo terminaras tú no hace que duela menos — a veces duele más.',
+        mutual: '«De mutuo acuerdo» nunca se siente tan limpio como suena.'
+      },
+      struggle: {
+        contact: 'Ese impulso de mirar cómo está es lo más difícil. Empezamos justo por ahí.',
+        sleep: 'Las 3 de la mañana son la hora más solitaria. Trabajaremos en eso primero.',
+        guilt: 'Llevas repitiendo el juicio en tu cabeza una y otra vez. Vamos a buscarte un juez más justo.',
+        anger: 'La rabia significa que importó. Le daremos un lugar adonde ir.',
+        empty: 'Esa sensación de vacío y entumecimiento es real. La iremos llenando despacio.'
+      },
+      goal: {
+        moveon: 'Pasar página de verdad — no fingirlo. Esa es la meta correcta.',
+        rebuild: 'Volver a ser tú. Me gusta que lo digas así.',
+        nosocial: 'Ese hábito de mirar reabre la herida cada vez. Lo cerraremos con suavidad.'
+      },
+      nameGiven: 'De acuerdo, {name}. Estoy contigo.',
+      nameSkipped: 'Está bien. No hace falta un nombre.'
+    },
+    multiDone: 'Eso es todo',
+    send: 'Enviar',
+    nameSkip: 'Prefiero no decirlo',
+    aiAsk: 'Una última cosa. ¿Quieres que envíe tus respuestas — solo una vez, sin guardarse nunca — a nuestra IA, para que tu carta y tu primera semana se escriban para ti en vez de salir de una plantilla?',
+    aiYes: 'Sí, escríbelo para mí',
+    aiNo: 'No, gracias — todo se queda en mi dispositivo',
+    freeAsk: 'Te escucho. ¿Qué pasó? Todo lo que me cuentes entra en tu carta.',
+    freeSkip: 'Nada que añadir',
+    writing: 'Bien. Dame un momento — estoy escribiendo lo que quiero decirte…'
+  },
   questions: [
     { key: 'duration', q: '¿Cuánto tiempo estuvieron juntos?', opts: [
       ['lt6m', 'Menos de 6 meses'],

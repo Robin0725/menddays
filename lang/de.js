@@ -85,6 +85,52 @@ window.MENDDAYS_LANG['de'] = {
     termsH3: 'Nutzungsbedingungen',
     closeBtn: 'Schließen'
   },
+  chat: {
+    hi1: 'Hey. Schön, dass du da bist.',
+    hi2: 'Du musst nicht die ganze Geschichte erzählen. Lass mich ein paar kleine Dinge fragen, dann stelle ich deine nächsten 30 Tage zusammen.',
+    ack: {
+      duration: {
+        lt6m: 'Kurz heißt nicht oberflächlich. Es hat trotzdem gezählt.',
+        '6m2y': 'Lang genug, um ein Leben um jemanden herum zu bauen. Ich versteh das.',
+        '2y5y': 'Ein paar Jahre… das schüttelt man nicht einfach ab.',
+        '5yplus': 'Das ist ein ganzes Kapitel deines Lebens. Natürlich tut das weh.'
+      },
+      since: {
+        week: 'Die Wunde ist also noch ganz frisch. Okay — diese Woche gehen wir besonders behutsam vor.',
+        month: 'Ein paar Wochen — genau dann, wenn alle erwarten, dass es dir wieder gut geht. Und das tut es nicht.',
+        '3mo': 'Ein, zwei Monate, und es zieht immer noch. Das ist normal, versprochen.',
+        longer: 'Dass es nach so langer Zeit noch wehtut, heißt nicht, dass mit dir etwas kaputt ist. Es heißt, dass es wichtig war.'
+      },
+      ender: {
+        them: 'Verlassen zu werden ist ein ganz eigener Schmerz. Du hattest kein Mitspracherecht.',
+        me: 'Selbst Schluss zu machen heißt nicht, dass es weniger wehtut — manchmal tut es mehr weh.',
+        mutual: '„Einvernehmlich“ fühlt sich nie so sauber an, wie das Wort klingt.'
+      },
+      struggle: {
+        contact: 'Dieser Drang, nachzuschauen, wie es ihm oder ihr geht, ist das Schwerste. Genau da fangen wir an.',
+        sleep: '3 Uhr nachts ist die einsamste Stunde. Daran arbeiten wir zuerst.',
+        guilt: 'Du spielst den Prozess in deinem Kopf in Dauerschleife durch. Wir besorgen dir einen faireren Richter.',
+        anger: 'Wut heißt, dass es wichtig war. Wir geben ihr ein Ziel.',
+        empty: 'Dieses taube, ausgehöhlte Gefühl ist real. Wir füllen langsam wieder auf.'
+      },
+      goal: {
+        moveon: 'Wirklich loslassen — nicht nur so tun. Das ist das richtige Ziel.',
+        rebuild: 'Dich selbst zurückholen. Mir gefällt, dass du es so gesagt hast.',
+        nosocial: 'Diese Nachschau-Gewohnheit reißt die Wunde jedes Mal wieder auf. Wir schließen sie behutsam.'
+      },
+      nameGiven: 'Okay, {name}. Ich bin bei dir.',
+      nameSkipped: 'Ist in Ordnung. Es braucht keinen Namen.'
+    },
+    multiDone: 'Das ist alles',
+    send: 'Senden',
+    nameSkip: 'Sag ich lieber nicht',
+    aiAsk: 'Eine letzte Sache. Soll ich deine Antworten — nur einmal, nie gespeichert — an unsere KI schicken, damit dein Brief und deine erste Woche für dich geschrieben werden statt aus einer Vorlage?',
+    aiYes: 'Ja, schreib es für mich',
+    aiNo: 'Nein danke — alles bleibt auf meinem Gerät',
+    freeAsk: 'Ich höre zu. Was ist passiert? Alles, was du mir erzählst, fließt in deinen Brief ein.',
+    freeSkip: 'Nichts hinzuzufügen',
+    writing: 'Okay. Gib mir einen Moment — ich schreibe gerade auf, was ich dir sagen möchte…'
+  },
   questions: [
     { key: 'duration', q: 'Wie lange wart ihr zusammen?', opts: [
       ['lt6m', 'Unter 6 Monate'],

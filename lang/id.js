@@ -85,6 +85,52 @@ window.MENDDAYS_LANG['id'] = {
     termsH3: 'Ketentuan',
     closeBtn: 'Tutup'
   },
+  chat: {
+    hi1: 'Hai. Senang kamu ada di sini.',
+    hi2: 'Kamu tidak perlu menceritakan semuanya. Biar kutanya beberapa hal kecil dulu, lalu kususun 30 hari ke depan untukmu.',
+    ack: {
+      duration: {
+        lt6m: 'Singkat bukan berarti dangkal. Itu tetap berarti.',
+        '6m2y': 'Cukup lama untuk membangun hidup di sekitar seseorang. Aku paham.',
+        '2y5y': 'Beberapa tahun… itu bukan hal yang bisa begitu saja dikibaskan.',
+        '5yplus': 'Itu satu bab utuh dalam hidupmu. Wajar kalau sakit.'
+      },
+      since: {
+        week: 'Jadi lukanya masih basah. Oke — minggu ini kita jalan ekstra pelan.',
+        month: 'Beberapa minggu — tepat saat semua orang mengira kamu sudah baik-baik saja, padahal belum.',
+        '3mo': 'Satu dua bulan berlalu, dan masih terasa menarik-narik. Itu normal, aku janji.',
+        longer: 'Masih sakit setelah selama ini bukan berarti kamu rusak. Artinya itu memang penting.'
+      },
+      ender: {
+        them: 'Menjadi pihak yang ditinggalkan adalah sakit yang berbeda. Kamu bahkan tidak diberi pilihan.',
+        me: 'Mengakhirinya sendiri tidak membuatnya kurang sakit — kadang malah lebih.',
+        mutual: '“Keputusan bersama” tidak pernah terasa serapi kedengarannya.'
+      },
+      struggle: {
+        contact: 'Dorongan untuk mengecek kabarnya itu bagian tersulit. Kita mulai tepat dari sana.',
+        sleep: 'Jam 3 pagi adalah jam paling sepi. Itu yang kita garap duluan.',
+        guilt: 'Kamu terus mengulang sidang itu di kepalamu. Kita carikan hakim yang lebih adil.',
+        anger: 'Marah berarti itu penting. Kita carikan tempat untuk menyalurkannya.',
+        empty: 'Rasa kosong dan mati rasa itu nyata. Kita isi lagi pelan-pelan.'
+      },
+      goal: {
+        moveon: 'Benar-benar move on — bukan pura-pura. Itu tujuan yang tepat.',
+        rebuild: 'Mendapatkan dirimu kembali. Aku suka caramu mengatakannya.',
+        nosocial: 'Kebiasaan mengecek itu membuka luka setiap kali. Kita tutup pelan-pelan.'
+      },
+      nameGiven: 'Oke, {name}. Aku di sini bersamamu.',
+      nameSkipped: 'Tidak apa-apa. Tanpa nama juga boleh.'
+    },
+    multiDone: 'Itu saja',
+    send: 'Kirim',
+    nameSkip: 'Tidak usah, ya',
+    aiAsk: 'Satu hal terakhir. Mau kukirim jawabanmu — sekali saja, tidak pernah disimpan — ke AI kami, supaya suratmu dan minggu pertamamu ditulis khusus untukmu, bukan dari templat?',
+    aiYes: 'Ya, tuliskan untukku',
+    aiNo: 'Tidak usah — semuanya tetap di perangkatku',
+    freeAsk: 'Aku mendengarkan. Apa yang terjadi? Apa pun yang kamu ceritakan akan masuk ke suratmu.',
+    freeSkip: 'Tidak ada tambahan',
+    writing: 'Oke. Beri aku waktu sebentar — aku sedang menuliskan apa yang ingin kukatakan padamu…'
+  },
   questions: [
     { key: 'duration', q: 'Berapa lama kalian bersama?', opts: [
       ['lt6m', 'Kurang dari 6 bulan'],
